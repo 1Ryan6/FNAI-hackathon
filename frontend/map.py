@@ -28,6 +28,13 @@ ISSUE_COLORS = {
 FALLBACK_COLOR = "blue"
 BAD_ISSUES = {"Complete Disconnect", "High Latency", "Cannot Authenticate"}
 
+# Severity weight for heat intensity (Disconnects generate strongest heat)
+ISSUE_WEIGHTS = {
+    "Complete Disconnect": 1.0,
+    "Cannot Authenticate": 0.7,
+    "High Latency": 0.5,
+}
+
 # Sample data used if the DB is empty or unavailable
 SAMPLE_LOGS = [
     {"latitude": 32.8811, "longitude": -117.2375, "network_name": "eduroam",
@@ -58,8 +65,8 @@ def build_map(
     zoom_start: int = DEFAULT_ZOOM,
     show_heatmap: bool = True,
 ) -> folium.Map:
-    """Creates folium.Map with OpenStreetMap tiles (no API key required, crisp campus cartography),
-    focused HeatMap for bad issues only, and CircleMarkers with Google Maps walking navigation popups."""
+    """Creates folium.Map with OpenStreetMap tiles, focused HeatMap layer for bad issues,
+    and semi-transparent CircleMarkers so the heatmap glow shines through vividly."""
     m = folium.Map(location=list(center), zoom_start=zoom_start, tiles="OpenStreetMap")
 
     # Reference marker for UCSD center
@@ -72,17 +79,24 @@ def build_map(
     logs_list = list(logs or [])
 
     # HeatMap: Only add bad issues ('Complete Disconnect', 'High Latency', 'Cannot Authenticate')
-    # Do NOT include 'Good Connection' in HeatMap.
+    # Weighted by issue severity so Complete Disconnects produce prominent red core glows
     if show_heatmap and logs_list:
         bad_data = [
-            [l["latitude"], l["longitude"]]
+            [l["latitude"], l["longitude"], ISSUE_WEIGHTS.get(l.get("issue_type", ""), 0.5)]
             for l in logs_list
             if l.get("issue_type") in BAD_ISSUES
         ]
         if bad_data:
-            HeatMap(bad_data, radius=13, blur=8, min_opacity=0.45).add_to(m)
+            HeatMap(
+                bad_data,
+                radius=24,
+                blur=16,
+                min_opacity=0.45,
+                max_zoom=18,
+                gradient={0.2: "#3388ff", 0.4: "#ffff00", 0.7: "#ff8800", 1.0: "#ff0000"},
+            ).add_to(m)
 
-    # CircleMarker for every log
+    # CircleMarker for every log: smaller radius & 0.65 fill opacity so heatmap layer shows clearly underneath
     for log in logs_list:
         lat = log["latitude"]
         lon = log["longitude"]
@@ -103,11 +117,12 @@ def build_map(
 
         folium.CircleMarker(
             location=[lat, lon],
-            radius=7,
-            color=color,
+            radius=6,
+            weight=1.5,
+            color="#222222",
             fill=True,
             fill_color=color,
-            fill_opacity=0.85,
+            fill_opacity=0.65,
             tooltip=f"{issue} - {network}",
             popup=popup,
         ).add_to(m)
