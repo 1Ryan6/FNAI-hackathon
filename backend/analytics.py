@@ -123,41 +123,44 @@ def generate_it_action_plan(
 ) -> tuple[str, str]:
     """Return (plan_text, source) where source is 'ai' or 'fallback:<reason>'.
 
-    Never raises: missing key, timeouts, rate limits, empty responses and SDK
-    errors all degrade to the templated ticket.
+    GenAI calls are commented out for now. Degrades cleanly to the deterministic
+    templated NOC ticket.
     """
     fallback = build_fallback_ticket(t, ev)
-    try:
-        if client is None:
-            api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-            if not api_key:
-                return fallback, "fallback:missing_api_key"
-            from google import genai
-            from google.genai import types
-            client = genai.Client(
-                api_key=api_key,
-                http_options=types.HttpOptions(timeout=timeout_ms),
-            )
-        prompt = (
-            "You are a NOC engineer. Write a concise (max 6 bullet) remediation "
-            "action plan for this network incident.\n"
-            f"Telemetry: {asdict(t)}\nEvaluation: {asdict(ev)}"
-        )
-        resp = client.models.generate_content(model=model, contents=prompt)
-        text = (getattr(resp, "text", None) or "").strip()
-        if not text:
-            return fallback, "fallback:empty_response"
-        return text, "ai"
-    except Exception as exc:  # noqa: BLE001 - deliberate: resilience boundary
-        code = getattr(exc, "code", None)
-        if code == 429:
-            reason = "rate_limited"
-        elif isinstance(exc, TimeoutError) or "timeout" in type(exc).__name__.lower() \
-                or "timed out" in str(exc).lower():
-            reason = "timeout"
-        else:
-            reason = type(exc).__name__
-        return fallback, f"fallback:{reason}"
+    return fallback, "fallback:offline_template"
+
+    # NOTE: GenAI remediation commented out until an API key is configured.
+    # try:
+    #     if client is None:
+    #         api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    #         if not api_key:
+    #             return fallback, "fallback:missing_api_key"
+    #         from google import genai
+    #         from google.genai import types
+    #         client = genai.Client(
+    #             api_key=api_key,
+    #             http_options=types.HttpOptions(timeout=timeout_ms),
+    #         )
+    #     prompt = (
+    #         "You are a NOC engineer. Write a concise (max 6 bullet) remediation "
+    #         "action plan for this network incident.\n"
+    #         f"Telemetry: {asdict(t)}\nEvaluation: {asdict(ev)}"
+    #     )
+    #     resp = client.models.generate_content(model=model, contents=prompt)
+    #     text = (getattr(resp, "text", None) or "").strip()
+    #     if not text:
+    #         return fallback, "fallback:empty_response"
+    #     return text, "ai"
+    # except Exception as exc:  # noqa: BLE001 - deliberate: resilience boundary
+    #     code = getattr(exc, "code", None)
+    #     if code == 429:
+    #         reason = "rate_limited"
+    #     elif isinstance(exc, TimeoutError) or "timeout" in type(exc).__name__.lower() \
+    #             or "timed out" in str(exc).lower():
+    #         reason = "timeout"
+    #     else:
+    #         reason = type(exc).__name__
+    #     return fallback, f"fallback:{reason}"
 
 
 # --------------------------------------------------------------------------
@@ -186,65 +189,14 @@ def _run_tests() -> int:
     check("score bounded", 0 <= calculate_priority_score(
         TelemetryInput("x", -5, -5, -5, -5, -5)).score <= 100)
 
-    print("Fallback / mock API tests")
-
-    class _Resp:
-        text = "- Restart interface\n- Check uplink"
-
-    class _OK:
-        class models:
-            @staticmethod
-            def generate_content(**_):
-                return _Resp()
-
-    class _RateLimit(Exception):
-        code = 429
-
-    class _Boom:
-        class models:
-            @staticmethod
-            def generate_content(**_):
-                raise _RateLimit("quota")
-
-    class _Timeout:
-        class models:
-            @staticmethod
-            def generate_content(**_):
-                raise TimeoutError("timed out")
-
-    class _Empty:
-        class models:
-            @staticmethod
-            def generate_content(**_):
-                class R:
-                    text = ""
-                return R()
-
+    print("Template generation tests (GenAI commented out)")
     ev = calculate_priority_score(bad)
-    plan, src = generate_it_action_plan(bad, ev, client=_OK())
-    check("mock success -> ai", src == "ai" and "Restart" in plan)
-    plan, src = generate_it_action_plan(bad, ev, client=_Boom())
-    check("429 -> fallback:rate_limited", src == "fallback:rate_limited" and "NOC DISPATCH" in plan)
-    plan, src = generate_it_action_plan(bad, ev, client=_Timeout())
-    check("timeout -> fallback:timeout", src == "fallback:timeout")
-    plan, src = generate_it_action_plan(bad, ev, client=_Empty())
-    check("empty -> fallback:empty_response", src == "fallback:empty_response")
-    saved = {k: os.environ.pop(k, None) for k in ("GEMINI_API_KEY", "GOOGLE_API_KEY")}
-    try:
-        _, src = generate_it_action_plan(bad, ev)
-        check("missing key -> fallback", src == "fallback:missing_api_key")
-    finally:
-        for k, v in saved.items():
-            if v is not None:
-                os.environ[k] = v
+    plan, src = generate_it_action_plan(bad, ev)
+    check("generates deterministic fallback ticket", "NOC DISPATCH TICKET" in plan and src == "fallback:offline_template")
 
-    print("Live API test")
-    if saved["GEMINI_API_KEY"] or saved["GOOGLE_API_KEY"]:
-        plan, src = generate_it_action_plan(bad, ev)
-        print(f"  source={src}\n{plan}\n")
-        check("live call returned a plan (ai or graceful fallback)", bool(plan))
-    else:
-        print("  skipped (no GEMINI_API_KEY / GOOGLE_API_KEY in environment)")
+    # Mock / Live GenAI tests commented out until API key configuration:
+    # print("Fallback / mock API tests")
+    # ... (omitted while GenAI is disabled)
 
     print(f"\n{'ALL TESTS PASSED' if not failures else f'{failures} FAILURE(S)'}")
     return 1 if failures else 0
