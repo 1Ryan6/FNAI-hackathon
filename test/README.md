@@ -62,19 +62,22 @@ python3 test/reanimate_meme.py --meme chill_guy --output test/chill_guy_custom.j
 ## 🎬 2027 Blockbuster Film Concept Posters
 
 * **`generate_2027_film_poster.py`**: Analyzes 5 potential 2027 films (*The Batman: Arkham Descends*, *Superman: Man of Tomorrow*, *A Minecraft Movie 2*, *Sky Rat*, *Teenage Mutant Ninja Turtles: Mutant Mayhem 2*) and synthesizes concept poster prompts.
-* **`test_2027_film_posters.py`**: Unit test suite for 2027 film profiles and poster rendering validation.
+* **`minecraft_2_2027_poster.jpg`**: Unofficial theatrical 2:3 release poster for *A Minecraft Movie 2*.
+* **`tmnt_2_2027_poster.jpg`**: Unofficial theatrical 2:3 release poster for *TMNT 2*.
 * **`the_batman_2027_poster.jpg`**: Unofficial theatrical 2:3 release poster for *The Batman*.
 * **`superman_2027_poster.jpg`**: Unofficial theatrical 2:3 release poster for *Superman*.
 * **`sky_rat_2027_poster.jpg`**: Unofficial theatrical 2:3 release poster for *Sky Rat*.
 
 ### Running the 2027 Poster Generator & Tests
 ```bash
-# Run 2027 film poster test suite:
+# Run 2027 film poster test suite (verifying all 5 posters):
 python3 test/test_2027_film_posters.py
 
 # Inspect film concept motifs & prompts:
-python3 test/generate_2027_film_poster.py --film sky_rat
+python3 test/generate_2027_film_poster.py --film minecraft_2
 python3 test/generate_2027_film_poster.py --film teenage_mutant_ninja_turtles_part_2
+python3 test/generate_2027_film_poster.py --film sky_rat
 python3 test/generate_2027_film_poster.py --film batman_arkham_descends
+python3 test/generate_2027_film_poster.py --film superman_man_of_tomorrow
 ```
 

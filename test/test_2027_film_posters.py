@@ -64,15 +64,12 @@ class Test2027FilmPosters(unittest.TestCase):
         batman_poster = os.path.join(self.test_dir, "the_batman_2027_poster.jpg")
         superman_poster = os.path.join(self.test_dir, "superman_2027_poster.jpg")
         sky_rat_poster = os.path.join(self.test_dir, "sky_rat_2027_poster.jpg")
+        minecraft_poster = os.path.join(self.test_dir, "minecraft_2_2027_poster.jpg")
+        tmnt_poster = os.path.join(self.test_dir, "tmnt_2_2027_poster.jpg")
 
-        self.assertTrue(os.path.exists(batman_poster), f"Missing {batman_poster}")
-        self.assertTrue(os.path.exists(superman_poster), f"Missing {superman_poster}")
-        self.assertTrue(os.path.exists(sky_rat_poster), f"Missing {sky_rat_poster}")
-
-        # Ensure valid non-empty image files (> 100KB for 2:3 theatrical posters)
-        self.assertGreater(os.path.getsize(batman_poster), 100_000)
-        self.assertGreater(os.path.getsize(superman_poster), 100_000)
-        self.assertGreater(os.path.getsize(sky_rat_poster), 100_000)
+        for p in [batman_poster, superman_poster, sky_rat_poster, minecraft_poster, tmnt_poster]:
+            self.assertTrue(os.path.exists(p), f"Missing {p}")
+            self.assertGreater(os.path.getsize(p), 100_000)
 
 
 if __name__ == "__main__":
