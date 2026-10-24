@@ -245,7 +245,7 @@ class TestEvaluateNetworkLogs:
 
     def test_filters_to_correct_network(self):
         t, _, _, _ = evaluate_network_logs(MOCK_LOGS, "eduroam")
-        assert t.affected_users == 3  # 3 eduroam logs
+        assert t.affected_users == 3 * 15  # 3 eduroam logs * 15 users
 
     def test_eduroam_is_critical_service(self):
         t, _, _, _ = evaluate_network_logs(MOCK_LOGS, "eduroam")
@@ -254,6 +254,16 @@ class TestEvaluateNetworkLogs:
     def test_ucsd_protected_is_critical_service(self):
         t, _, _, _ = evaluate_network_logs(MOCK_LOGS, "UCSD-Protected")
         assert t.critical_service is True
+
+    def test_all_is_critical_service(self):
+        t, _, _, _ = evaluate_network_logs(MOCK_LOGS, "All")
+        assert t.critical_service is True
+        assert t.affected_users == len(MOCK_LOGS) * 15
+
+    def test_none_is_critical_service(self):
+        t, _, _, _ = evaluate_network_logs(MOCK_LOGS, None)
+        assert t.critical_service is True
+        assert t.device_id == "UCSD-ALL-CLUSTER"
 
     def test_resnet_is_not_critical_service(self):
         t, _, _, _ = evaluate_network_logs(MOCK_LOGS, "ResNet")
@@ -264,30 +274,30 @@ class TestEvaluateNetworkLogs:
         assert t.critical_service is False
 
     def test_latency_ms_scales_from_high_latency_count(self):
-        # 2 High Latency logs for eduroam → 2 * 30.0 = 60.0ms estimated latency
+        # 2 High Latency logs for eduroam → 25.0 + 2 * 18.0 = 61.0ms
         t, _, _, _ = evaluate_network_logs(MOCK_LOGS, "eduroam")
-        assert t.latency_ms == 60.0
+        assert t.latency_ms == 61.0
 
     def test_packet_loss_scales_from_disconnect_count(self):
-        # 1 Complete Disconnect for eduroam → 1 * 0.5 = 0.5%
+        # 1 Complete Disconnect for eduroam → 1 * 0.6 = 0.6%
         t, _, _, _ = evaluate_network_logs(MOCK_LOGS, "eduroam")
-        assert t.packet_loss_pct == 0.5
+        assert t.packet_loss_pct == 0.6
 
-    def test_latency_caps_at_500ms(self):
+    def test_latency_caps_at_600ms(self):
         many_latency_logs = [
             {"network_name": "eduroam", "issue_type": "High Latency",
              "latitude": 32.88, "longitude": -117.23, "timestamp": "2026-01-01 00:00:00"}
         ] * 100
         t, _, _, _ = evaluate_network_logs(many_latency_logs, "eduroam")
-        assert t.latency_ms == 500.0
+        assert t.latency_ms == 600.0
 
-    def test_packet_loss_caps_at_10_percent(self):
+    def test_packet_loss_caps_at_15_percent(self):
         many_disconnect_logs = [
             {"network_name": "eduroam", "issue_type": "Complete Disconnect",
              "latitude": 32.88, "longitude": -117.23, "timestamp": "2026-01-01 00:00:00"}
         ] * 100
         t, _, _, _ = evaluate_network_logs(many_disconnect_logs, "eduroam")
-        assert t.packet_loss_pct == 10.0
+        assert t.packet_loss_pct == 15.0
 
     def test_empty_logs_returns_low_severity(self):
         t, ev, _, _ = evaluate_network_logs([], "eduroam")

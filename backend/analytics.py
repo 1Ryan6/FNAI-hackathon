@@ -164,31 +164,42 @@ def generate_it_action_plan(
 
 
 def evaluate_network_logs(
-    logs: list[dict],
-    network: str,
+    logs: list[dict[str, Any]],
+    network_name: Optional[str] = None,
 ) -> tuple[TelemetryInput, IncidentEvaluation, str, str]:
     """Bridge between raw SQLite logs and the telemetry scoring engine.
 
-    Accepts the list-of-dicts from db.get_all_logs() filtered to a single
-    network, translates crowd-sourced drop counts into a synthetic
-    TelemetryInput, scores it, and generates a NOC ticket.
-
-    Returns: (telemetry, evaluation, action_plan_text, plan_source)
+    1. Filter logs by network_name if provided (ignore filter if None or "All").
+    2. Count total filtered logs, "Complete Disconnect", and "High Latency" logs.
+    3. Deterministically map counts to a TelemetryInput instance.
+    4. Call calculate_priority_score() and generate_it_action_plan().
+    5. Return (telemetry, evaluation, plan_text, source).
     """
-    network_logs = [l for l in logs if l.get("network_name") == network]
-    total = len(network_logs)
+    if network_name and network_name != "All":
+        filtered_logs = [l for l in logs if l.get("network_name") == network_name]
+    else:
+        filtered_logs = list(logs)
 
-    disconnects = sum(1 for l in network_logs if l.get("issue_type") == "Complete Disconnect")
-    high_latency = sum(1 for l in network_logs if l.get("issue_type") == "High Latency")
+    total_count = len(filtered_logs)
+    disconnect_count = sum(1 for l in filtered_logs if l.get("issue_type") == "Complete Disconnect")
+    high_latency_count = sum(1 for l in filtered_logs if l.get("issue_type") == "High Latency")
+
+    device_id = f"UCSD-{network_name or 'ALL'}-CLUSTER"
+    latency_ms = min(25.0 + (high_latency_count * 18.0), 600.0)
+    packet_loss_pct = min(disconnect_count * 0.6, 15.0)
+    cpu_pct = min(35.0 + (total_count * 1.2), 99.0)
+    error_rate_pct = min(disconnect_count * 0.5, 15.0)
+    affected_users = total_count * 15
+    critical_service = network_name in ("UCSD-Protected", "eduroam", None, "All")
 
     telemetry = TelemetryInput(
-        device_id=f"net-{network}",
-        latency_ms=min(high_latency * 30.0, 500.0),
-        packet_loss_pct=min(disconnects * 0.5, 10.0),
-        cpu_pct=min(40.0 + total * 2.0, 100.0),
-        error_rate_pct=min((disconnects / max(total, 1)) * 10.0, 10.0),
-        affected_users=total,
-        critical_service=(network in ("UCSD-Protected", "eduroam")),
+        device_id=device_id,
+        latency_ms=latency_ms,
+        packet_loss_pct=packet_loss_pct,
+        cpu_pct=cpu_pct,
+        error_rate_pct=error_rate_pct,
+        affected_users=affected_users,
+        critical_service=critical_service,
     )
 
     evaluation = calculate_priority_score(telemetry)
@@ -238,14 +249,23 @@ def _run_tests() -> int:
          "latitude": 32.88, "longitude": -117.23, "timestamp": "2026-01-01 00:02:00"},
     ]
     t, ev, plan, src = evaluate_network_logs(mock_logs, "eduroam")
-    check("adapter filters to correct network", t.affected_users == 2)
+    check("adapter filters to correct network", t.affected_users == 30)
+    check("adapter device_id format", t.device_id == "UCSD-eduroam-CLUSTER")
     check("adapter marks eduroam as critical", t.critical_service is True)
     check("adapter produces valid evaluation", ev.severity in ("LOW", "MEDIUM", "HIGH", "CRITICAL"))
     check("adapter returns NOC ticket", "NOC DISPATCH" in plan)
 
     t2, ev2, _, _ = evaluate_network_logs(mock_logs, "ResNet")
     check("ResNet not critical service", t2.critical_service is False)
-    check("ResNet has 1 user", t2.affected_users == 1)
+    check("ResNet has 15 users (1 log * 15)", t2.affected_users == 15)
+
+    t3, ev3, _, _ = evaluate_network_logs(mock_logs, "All")
+    check("All filter includes all 3 logs", t3.affected_users == 45)
+    check("All filter critical_service is True", t3.critical_service is True)
+
+    t4, ev4, _, _ = evaluate_network_logs(mock_logs, None)
+    check("None filter device_id is ALL", t4.device_id == "UCSD-ALL-CLUSTER")
+    check("None filter includes all 3 logs", t4.affected_users == 45)
 
     # Mock / Live GenAI tests commented out until API key configuration:
     # print("Fallback / mock API tests")

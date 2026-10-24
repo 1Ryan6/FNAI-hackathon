@@ -1,3 +1,4 @@
+import pandas as pd
 import streamlit as st
 from streamlit_folium import st_folium
 
@@ -50,34 +51,69 @@ st.title("UCSD Ping-Drop Heatmapper")
 # Fetch all logs from the database
 logs = db.get_all_logs()
 
-# Two-column dashboard layout
-col_map, col_metrics = st.columns([2.5, 1])
+# Horizontal network filter control
+selected_network = st.radio(
+    "Filter by Network:",
+    options=["All", "UCSD-Protected", "eduroam", "ResNet"],
+    horizontal=True,
+)
+
+# Filter logs based on selection for map and metrics
+if selected_network == "All":
+    filtered_logs = logs
+else:
+    filtered_logs = [l for l in logs if l.get("network_name") == selected_network]
+
+# Two-column layout: Map on the left (width 3), Analytics on the right (width 2)
+col_map, col_analytics = st.columns([3, 2])
 
 with col_map:
-    st.subheader("Live Heatmap")
+    st.subheader(f"Live Heatmap ({selected_network})")
     st.caption("🔴 Red = Complete Disconnect | 🟠 Orange = High Latency")
     st_folium(
-        build_map(logs, center=(latitude, longitude)),
-        width=800,
-        height=540,
+        build_map(filtered_logs, center=(latitude, longitude)),
+        width=750,
+        height=580,
         key="drops_map",
         returned_objects=[],
     )
 
-with col_metrics:
-    st.subheader("Live Telemetry")
-    st.metric("Total Incident Reports", len(logs))
+with col_analytics:
+    st.subheader("Telemetry & Remediation Dashboard")
 
-    # Evaluate telemetry for currently selected network via analytics bridge
-    telemetry, evaluation, plan_text, plan_source = analytics.evaluate_network_logs(logs, network)
+    # Evaluate network logs via analytics bridge
+    telemetry, ev, plan_text, source = analytics.evaluate_network_logs(logs, selected_network)
 
-    st.markdown("---")
-    st.subheader(f"Network: {network}")
-    st.metric("Severity Level", evaluation.severity)
-    st.metric("Priority Score", f"{evaluation.score} / 100")
+    # Top-level KPI metrics
+    kpi1, kpi2, kpi3 = st.columns(3)
+    kpi1.metric("Total Reports", len(filtered_logs))
+    kpi2.metric("Priority Score", f"{ev.score}/100")
+    kpi3.metric("Severity Level", ev.severity)
 
-    if evaluation.drivers:
-        st.write("**Contributing Drivers:**", ", ".join(evaluation.drivers))
+    # Color-coded status banner based on severity
+    drivers_msg = f"Drivers: {', '.join(ev.drivers)}" if ev.drivers else "No critical threshold drivers."
+    status_text = f"**{ev.severity} Severity** ({selected_network}) — {drivers_msg}"
+    if ev.severity in ("CRITICAL", "HIGH"):
+        st.error(status_text)
+    elif ev.severity == "MEDIUM":
+        st.warning(status_text)
+    else:
+        st.success(status_text)
 
-    with st.expander("NOC Dispatch Ticket", expanded=False):
-        st.text(plan_text)
+    # NOC Dispatch Ticket & Action Plan
+    st.markdown("##### NOC Dispatch Ticket & Action Plan")
+    st.code(plan_text, language="text")
+    st.caption(f"Source: {source}")
+
+    # Compact dataframe of 10 most recent logs
+    st.markdown("##### Recent Drop Reports")
+    columns = ["timestamp", "network_name", "issue_type", "latitude", "longitude"]
+    if filtered_logs:
+        recent_rows = [
+            {col: l.get(col) for col in columns}
+            for l in filtered_logs[:10]
+        ]
+    else:
+        recent_rows = []
+    df_recent = pd.DataFrame(recent_rows, columns=columns)
+    st.dataframe(df_recent, use_container_width=True, hide_index=True)

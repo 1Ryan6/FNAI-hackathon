@@ -236,9 +236,9 @@ class TestE2ELogDropFlow:
         assert issues_in_db == {"Complete Disconnect", "High Latency"}
 
     def test_multiple_sequential_drops_accumulate_in_analytics(self):
-        """Each new 'Log Drop' should increase affected_users by 1."""
+        """Each new 'Log Drop' should increase affected_users by 15."""
         for i in range(5):
             db_module.insert_log(32.8801, -117.2340, "ResNet", "High Latency")
             logs = db_module.get_all_logs()
             t, _, _, _ = evaluate_network_logs(logs, "ResNet")
-            assert t.affected_users == i + 1
+            assert t.affected_users == (i + 1) * 15

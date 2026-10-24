@@ -78,8 +78,8 @@ class TestStreamlitAppE2E:
         at.run()
 
         metric_labels = [m.label for m in at.metric]
-        assert "Total Incident Reports" in metric_labels
-        total_metric = next(m for m in at.metric if m.label == "Total Incident Reports")
+        assert "Total Reports" in metric_labels
+        total_metric = next(m for m in at.metric if m.label == "Total Reports")
         assert total_metric.value == "3"
 
     def test_severity_and_score_metrics_rendered(self):
@@ -91,3 +91,17 @@ class TestStreamlitAppE2E:
         metric_labels = [m.label for m in at.metric]
         assert "Severity Level" in metric_labels
         assert "Priority Score" in metric_labels
+
+    def test_network_radio_filter_present_and_options(self):
+        at = AppTest.from_file(APP_PATH, default_timeout=10)
+        at.run()
+        assert len(at.radio) > 0
+        radio = at.radio[0]
+        assert list(radio.options) == ["All", "UCSD-Protected", "eduroam", "ResNet"]
+
+    def test_noc_code_block_and_dataframe_rendered(self):
+        db_module.insert_log(32.8801, -117.2340, "eduroam", "High Latency")
+        at = AppTest.from_file(APP_PATH, default_timeout=10)
+        at.run()
+        assert len(at.code) > 0
+        assert len(at.dataframe) > 0
