@@ -14,7 +14,11 @@ st.set_page_config(page_title="UCSD Ping-Drop Heatmapper", layout="wide")
 with st.sidebar:
     network = st.selectbox(
         "Network",
-        options=["UCSD-Protected", "eduroam", "UCSD-Guest"],
+        options=["UCSD-Protected", "UCSD-Guest", "eduroam", "ResNet"],
+    )
+    issue_type = st.selectbox(
+        "Issue Type",
+        options=["Complete Disconnect", "High Latency"],
     )
     latitude = st.number_input(
         "Latitude",

@@ -19,7 +19,7 @@ BASE_LON = -117.2340
 # Spread standard deviation (~0.003 degrees is roughly 300-350 meters)
 SPREAD = 0.0035 
 
-NETWORKS = ['UCSD-Protected', 'eduroam', 'ResNet']
+NETWORKS = ['UCSD-Protected', 'UCSD-Guest', 'eduroam', 'ResNet']
 ISSUES = ['Complete Disconnect', 'High Latency']
 NUM_RECORDS = 75
 
