@@ -153,11 +153,11 @@ metric_col3.metric("I/O Architecture", "0 Disk Reads/Render (Shared Memory Broad
 
 st.markdown(
     """
-    <div style="background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 10px 16px; margin: 10px 0 16px 0; font-size: 0.95rem;">
-        <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: green; margin-right: 6px;"></span><b>Good Connection</b> (Click marker to navigate) &nbsp;&nbsp;|&nbsp;&nbsp;
-        <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: orange; margin-right: 6px;"></span><b>High Latency / Cannot Authenticate</b> &nbsp;&nbsp;|&nbsp;&nbsp;
-        <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: red; margin-right: 6px;"></span><b>Complete Disconnect</b> &nbsp;&nbsp;|&nbsp;&nbsp;
-        <span style="display: inline-block; padding: 2px 8px; border-radius: 4px; background: rgba(255,0,0,0.15); font-weight: bold; color: #b30000;">Heat Layer</span> <b>Deadzone Density</b>
+    <div style="background-color: #212529; color: #f8f9fa; border: 1px solid #343a40; border-radius: 8px; padding: 10px 16px; margin: 10px 0 16px 0; font-size: 0.95rem;">
+        <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: #28a745; margin-right: 6px; vertical-align: middle;"></span><strong style="color: #ffffff;">Good Connection</strong> <span style="color: #ced4da;">(Click marker to navigate)</span> &nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: #fd7e14; margin-right: 6px; vertical-align: middle;"></span><strong style="color: #ffffff;">High Latency / Cannot Authenticate</strong> &nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: #dc3545; margin-right: 6px; vertical-align: middle;"></span><strong style="color: #ffffff;">Complete Disconnect</strong> &nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="display: inline-block; padding: 2px 8px; border-radius: 4px; background: rgba(220,53,69,0.3); font-weight: bold; color: #ff6b6b; border: 1px solid rgba(220,53,69,0.5);">Heat Layer</span> <strong style="color: #ffffff;">Deadzone Density</strong>
     </div>
     """,
     unsafe_allow_html=True,
