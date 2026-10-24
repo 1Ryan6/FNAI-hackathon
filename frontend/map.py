@@ -8,6 +8,7 @@ import sys
 from typing import Any, Dict, Iterable, Optional
 
 import folium
+from folium.plugins import HeatMap
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(CURRENT_DIR)
@@ -42,8 +43,9 @@ def build_map(
     logs: Optional[Iterable[Dict[str, Any]]] = None,
     center: tuple = UCSD_CENTER,
     zoom_start: int = DEFAULT_ZOOM,
+    show_heatmap: bool = True,
 ) -> folium.Map:
-    """Base layer centered on `center` plus one CircleMarker per log."""
+    """Base layer centered on `center` plus HeatMap density and CircleMarkers per log."""
     # Keyless Esri tiles: OSM tile servers 403 file:// pages (no Referer) and
     # CartoDB tiles now need an API key.
     m = folium.Map(location=list(center), zoom_start=zoom_start, tiles=None)
@@ -58,15 +60,22 @@ def build_map(
         icon=folium.Icon(color="darkblue", icon="info-sign"),
     ).add_to(m)
 
-    for log in logs or []:
+    logs_list = list(logs or [])
+
+    # Add heatmap layer
+    if show_heatmap and logs_list:
+        heat_data = [[l["latitude"], l["longitude"]] for l in logs_list]
+        HeatMap(heat_data, radius=18, blur=13, max_zoom=17, min_opacity=0.35).add_to(m)
+
+    for log in logs_list:
         color = color_for_issue(log["issue_type"])
         folium.CircleMarker(
             location=[log["latitude"], log["longitude"]],
-            radius=7,
+            radius=6,
             color=color,
             fill=True,
             fill_color=color,
-            fill_opacity=0.7,
+            fill_opacity=0.8,
             tooltip=f'{log["issue_type"]} - {log["network_name"]}',
             popup=f'{log["network_name"]}<br>{log["issue_type"]}<br>{log["timestamp"]}',
         ).add_to(m)

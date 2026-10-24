@@ -163,6 +163,40 @@ def generate_it_action_plan(
     #     return fallback, f"fallback:{reason}"
 
 
+def evaluate_network_logs(
+    logs: list[dict],
+    network: str,
+) -> tuple[TelemetryInput, IncidentEvaluation, str, str]:
+    """Bridge between raw SQLite logs and the telemetry scoring engine.
+
+    Accepts the list-of-dicts from db.get_all_logs() filtered to a single
+    network, translates crowd-sourced drop counts into a synthetic
+    TelemetryInput, scores it, and generates a NOC ticket.
+
+    Returns: (telemetry, evaluation, action_plan_text, plan_source)
+    """
+    network_logs = [l for l in logs if l.get("network_name") == network]
+    total = len(network_logs)
+
+    disconnects = sum(1 for l in network_logs if l.get("issue_type") == "Complete Disconnect")
+    high_latency = sum(1 for l in network_logs if l.get("issue_type") == "High Latency")
+
+    telemetry = TelemetryInput(
+        device_id=f"net-{network}",
+        latency_ms=min(high_latency * 30.0, 500.0),
+        packet_loss_pct=min(disconnects * 0.5, 10.0),
+        cpu_pct=min(40.0 + total * 2.0, 100.0),
+        error_rate_pct=min((disconnects / max(total, 1)) * 10.0, 10.0),
+        affected_users=total,
+        critical_service=(network in ("UCSD-Protected", "eduroam")),
+    )
+
+    evaluation = calculate_priority_score(telemetry)
+    plan_text, plan_source = generate_it_action_plan(telemetry, evaluation)
+
+    return telemetry, evaluation, plan_text, plan_source
+
+
 # --------------------------------------------------------------------------
 # 3. Verification suite
 # --------------------------------------------------------------------------
@@ -193,6 +227,25 @@ def _run_tests() -> int:
     ev = calculate_priority_score(bad)
     plan, src = generate_it_action_plan(bad, ev)
     check("generates deterministic fallback ticket", "NOC DISPATCH TICKET" in plan and src == "fallback:offline_template")
+
+    print("Network log adapter tests")
+    mock_logs = [
+        {"network_name": "eduroam", "issue_type": "Complete Disconnect",
+         "latitude": 32.88, "longitude": -117.23, "timestamp": "2026-01-01 00:00:00"},
+        {"network_name": "eduroam", "issue_type": "High Latency",
+         "latitude": 32.88, "longitude": -117.23, "timestamp": "2026-01-01 00:01:00"},
+        {"network_name": "ResNet", "issue_type": "High Latency",
+         "latitude": 32.88, "longitude": -117.23, "timestamp": "2026-01-01 00:02:00"},
+    ]
+    t, ev, plan, src = evaluate_network_logs(mock_logs, "eduroam")
+    check("adapter filters to correct network", t.affected_users == 2)
+    check("adapter marks eduroam as critical", t.critical_service is True)
+    check("adapter produces valid evaluation", ev.severity in ("LOW", "MEDIUM", "HIGH", "CRITICAL"))
+    check("adapter returns NOC ticket", "NOC DISPATCH" in plan)
+
+    t2, ev2, _, _ = evaluate_network_logs(mock_logs, "ResNet")
+    check("ResNet not critical service", t2.critical_service is False)
+    check("ResNet has 1 user", t2.affected_users == 1)
 
     # Mock / Live GenAI tests commented out until API key configuration:
     # print("Fallback / mock API tests")
