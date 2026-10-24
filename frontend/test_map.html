@@ -1,0 +1,2607 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_701a4b16cd74c5453183be499e8e6b0e {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_701a4b16cd74c5453183be499e8e6b0e" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_701a4b16cd74c5453183be499e8e6b0e = L.map(
+                "map_701a4b16cd74c5453183be499e8e6b0e",
+                {
+                    center: [32.8801, -117.234],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 15,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_6b38da3e8e4caf1f042179a92ee7ca8e = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "Tiles \u0026copy; Esri",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_6b38da3e8e4caf1f042179a92ee7ca8e.addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+            var marker_861a43722f8a02c0825836eee8d93388 = L.marker(
+                [32.8801, -117.234],
+                {
+}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+            var icon_8bc9f8b4f300dcfb9cde0516b0d7ff71 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_861a43722f8a02c0825836eee8d93388.bindTooltip(
+                `<div>
+                     UCSD (map center)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_861a43722f8a02c0825836eee8d93388.setIcon(icon_8bc9f8b4f300dcfb9cde0516b0d7ff71);
+            
+    
+            var circle_marker_8f67f87ebe7bff4ac41a53724eb4831e = L.circleMarker(
+                [32.875462, -117.232229],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_ad95d81cda6899e675e312f14d4c5db4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6d66201aec152395dcbac4992fdc8975 = $(`<div id="html_6d66201aec152395dcbac4992fdc8975" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-24 13:19:56</div>`)[0];
+                popup_ad95d81cda6899e675e312f14d4c5db4.setContent(html_6d66201aec152395dcbac4992fdc8975);
+            
+        
+
+        circle_marker_8f67f87ebe7bff4ac41a53724eb4831e.bindPopup(popup_ad95d81cda6899e675e312f14d4c5db4)
+        ;
+
+        
+    
+    
+            circle_marker_8f67f87ebe7bff4ac41a53724eb4831e.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a02adefebd5dd21877350facd4c7386d = L.circleMarker(
+                [32.880364, -117.239719],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_e1a8bdf30561f0964e6068c26f7fd101 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0d446aa0c5cc1fc688055d9d20de1380 = $(`<div id="html_0d446aa0c5cc1fc688055d9d20de1380" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-24 13:06:17</div>`)[0];
+                popup_e1a8bdf30561f0964e6068c26f7fd101.setContent(html_0d446aa0c5cc1fc688055d9d20de1380);
+            
+        
+
+        circle_marker_a02adefebd5dd21877350facd4c7386d.bindPopup(popup_e1a8bdf30561f0964e6068c26f7fd101)
+        ;
+
+        
+    
+    
+            circle_marker_a02adefebd5dd21877350facd4c7386d.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7f9883303075a81808c5463af0ac440f = L.circleMarker(
+                [32.886385, -117.233216],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_8d96f756a4d2e20ab046678044ed7856 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5b62a3d5e20b617654648bfbc2476259 = $(`<div id="html_5b62a3d5e20b617654648bfbc2476259" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-24 12:52:34</div>`)[0];
+                popup_8d96f756a4d2e20ab046678044ed7856.setContent(html_5b62a3d5e20b617654648bfbc2476259);
+            
+        
+
+        circle_marker_7f9883303075a81808c5463af0ac440f.bindPopup(popup_8d96f756a4d2e20ab046678044ed7856)
+        ;
+
+        
+    
+    
+            circle_marker_7f9883303075a81808c5463af0ac440f.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_009bfd431de59a4a47cfd6e9fdfe0587 = L.circleMarker(
+                [32.884808, -117.230768],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_cfc6ba80adfcd8414ec46828cf103981 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6c80c69942ac445f9e7ff4aa95bf41da = $(`<div id="html_6c80c69942ac445f9e7ff4aa95bf41da" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>High Latency<br>2026-10-24 12:34:12</div>`)[0];
+                popup_cfc6ba80adfcd8414ec46828cf103981.setContent(html_6c80c69942ac445f9e7ff4aa95bf41da);
+            
+        
+
+        circle_marker_009bfd431de59a4a47cfd6e9fdfe0587.bindPopup(popup_cfc6ba80adfcd8414ec46828cf103981)
+        ;
+
+        
+    
+    
+            circle_marker_009bfd431de59a4a47cfd6e9fdfe0587.bindTooltip(
+                `<div>
+                     High Latency - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_90571d66b5144c6433497e733b9e84e0 = L.circleMarker(
+                [32.875462, -117.233389],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_2d55c5b042aa6b5b38930fb6c777cc33 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bf0ece4b826c1bb2ffc86ca5065f456c = $(`<div id="html_bf0ece4b826c1bb2ffc86ca5065f456c" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-24 12:19:53</div>`)[0];
+                popup_2d55c5b042aa6b5b38930fb6c777cc33.setContent(html_bf0ece4b826c1bb2ffc86ca5065f456c);
+            
+        
+
+        circle_marker_90571d66b5144c6433497e733b9e84e0.bindPopup(popup_2d55c5b042aa6b5b38930fb6c777cc33)
+        ;
+
+        
+    
+    
+            circle_marker_90571d66b5144c6433497e733b9e84e0.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a02fbf2c2f5f8871f6c03aa396436969 = L.circleMarker(
+                [32.873246, -117.237948],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_a5f2d8999ea81c43c6ba0445ad5e1539 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1ae8fb2f99a65619ce8cceb082dded96 = $(`<div id="html_1ae8fb2f99a65619ce8cceb082dded96" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-24 11:52:01</div>`)[0];
+                popup_a5f2d8999ea81c43c6ba0445ad5e1539.setContent(html_1ae8fb2f99a65619ce8cceb082dded96);
+            
+        
+
+        circle_marker_a02fbf2c2f5f8871f6c03aa396436969.bindPopup(popup_a5f2d8999ea81c43c6ba0445ad5e1539)
+        ;
+
+        
+    
+    
+            circle_marker_a02fbf2c2f5f8871f6c03aa396436969.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_efaf75632e6f169abb82bd7c3ec48a6e = L.circleMarker(
+                [32.882341, -117.22873],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_3ad52fe6cfd1f7d951829b182072ed03 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f0b17041e80f2c5d537e2f7370b30828 = $(`<div id="html_f0b17041e80f2c5d537e2f7370b30828" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>High Latency<br>2026-10-24 11:50:39</div>`)[0];
+                popup_3ad52fe6cfd1f7d951829b182072ed03.setContent(html_f0b17041e80f2c5d537e2f7370b30828);
+            
+        
+
+        circle_marker_efaf75632e6f169abb82bd7c3ec48a6e.bindPopup(popup_3ad52fe6cfd1f7d951829b182072ed03)
+        ;
+
+        
+    
+    
+            circle_marker_efaf75632e6f169abb82bd7c3ec48a6e.bindTooltip(
+                `<div>
+                     High Latency - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_083869d55121bdf8afff838148deea58 = L.circleMarker(
+                [32.88058, -117.236188],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_20957c9c579f1a3dc002d6728d38921c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_98e781d4d063d1b585f7839899a62f65 = $(`<div id="html_98e781d4d063d1b585f7839899a62f65" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>High Latency<br>2026-10-24 11:32:04</div>`)[0];
+                popup_20957c9c579f1a3dc002d6728d38921c.setContent(html_98e781d4d063d1b585f7839899a62f65);
+            
+        
+
+        circle_marker_083869d55121bdf8afff838148deea58.bindPopup(popup_20957c9c579f1a3dc002d6728d38921c)
+        ;
+
+        
+    
+    
+            circle_marker_083869d55121bdf8afff838148deea58.bindTooltip(
+                `<div>
+                     High Latency - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2762d742237915d43882bd0ebaff2dd8 = L.circleMarker(
+                [32.887824, -117.232206],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_eac13d2cb2e1ce51b3b408c9c94a10f1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_4ee8ce1a491bdb100d4563e07aa37af7 = $(`<div id="html_4ee8ce1a491bdb100d4563e07aa37af7" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-24 10:33:05</div>`)[0];
+                popup_eac13d2cb2e1ce51b3b408c9c94a10f1.setContent(html_4ee8ce1a491bdb100d4563e07aa37af7);
+            
+        
+
+        circle_marker_2762d742237915d43882bd0ebaff2dd8.bindPopup(popup_eac13d2cb2e1ce51b3b408c9c94a10f1)
+        ;
+
+        
+    
+    
+            circle_marker_2762d742237915d43882bd0ebaff2dd8.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_016d70813b2c0f3b2697743247e0a3c0 = L.circleMarker(
+                [32.880084, -117.235628],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_c1a0495717092de5f47a34a66e4f6475 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_65c02bf874a61aa989f8ec5d825bdcf0 = $(`<div id="html_65c02bf874a61aa989f8ec5d825bdcf0" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-24 10:22:09</div>`)[0];
+                popup_c1a0495717092de5f47a34a66e4f6475.setContent(html_65c02bf874a61aa989f8ec5d825bdcf0);
+            
+        
+
+        circle_marker_016d70813b2c0f3b2697743247e0a3c0.bindPopup(popup_c1a0495717092de5f47a34a66e4f6475)
+        ;
+
+        
+    
+    
+            circle_marker_016d70813b2c0f3b2697743247e0a3c0.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_87ce5a39c6efb808e3b2bfb172a4cbe0 = L.circleMarker(
+                [32.880085, -117.233288],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_c6f7730951768d623ee3b680cce3741e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a23199d46b5908c2e32e3384a271e4d1 = $(`<div id="html_a23199d46b5908c2e32e3384a271e4d1" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>High Latency<br>2026-10-24 10:02:17</div>`)[0];
+                popup_c6f7730951768d623ee3b680cce3741e.setContent(html_a23199d46b5908c2e32e3384a271e4d1);
+            
+        
+
+        circle_marker_87ce5a39c6efb808e3b2bfb172a4cbe0.bindPopup(popup_c6f7730951768d623ee3b680cce3741e)
+        ;
+
+        
+    
+    
+            circle_marker_87ce5a39c6efb808e3b2bfb172a4cbe0.bindTooltip(
+                `<div>
+                     High Latency - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c076a5f3740a30f0c6ea4e2d50c6a883 = L.circleMarker(
+                [32.875507, -117.235532],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_2cba3cc12757c74b80344c957a0ac761 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7b4199d79fcd354d9d1bac3142bf6c65 = $(`<div id="html_7b4199d79fcd354d9d1bac3142bf6c65" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-24 09:31:14</div>`)[0];
+                popup_2cba3cc12757c74b80344c957a0ac761.setContent(html_7b4199d79fcd354d9d1bac3142bf6c65);
+            
+        
+
+        circle_marker_c076a5f3740a30f0c6ea4e2d50c6a883.bindPopup(popup_2cba3cc12757c74b80344c957a0ac761)
+        ;
+
+        
+    
+    
+            circle_marker_c076a5f3740a30f0c6ea4e2d50c6a883.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3b0ac0274a9baf9703a8cc03fa0f37fc = L.circleMarker(
+                [32.878474, -117.227536],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_59e0ef27f249adb31bf7409a8b4cbb07 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ef3e993bbf02f1a6f09d58edb6bb97e8 = $(`<div id="html_ef3e993bbf02f1a6f09d58edb6bb97e8" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-24 09:25:20</div>`)[0];
+                popup_59e0ef27f249adb31bf7409a8b4cbb07.setContent(html_ef3e993bbf02f1a6f09d58edb6bb97e8);
+            
+        
+
+        circle_marker_3b0ac0274a9baf9703a8cc03fa0f37fc.bindPopup(popup_59e0ef27f249adb31bf7409a8b4cbb07)
+        ;
+
+        
+    
+    
+            circle_marker_3b0ac0274a9baf9703a8cc03fa0f37fc.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8a13dec55d5fcc768523fe8e4b071ef2 = L.circleMarker(
+                [32.876422, -117.233118],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_5fa305e12ee8acbcbc502e724cc0bb6b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a1e8e7a1743ac50469f8db25b2b61357 = $(`<div id="html_a1e8e7a1743ac50469f8db25b2b61357" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-24 08:54:26</div>`)[0];
+                popup_5fa305e12ee8acbcbc502e724cc0bb6b.setContent(html_a1e8e7a1743ac50469f8db25b2b61357);
+            
+        
+
+        circle_marker_8a13dec55d5fcc768523fe8e4b071ef2.bindPopup(popup_5fa305e12ee8acbcbc502e724cc0bb6b)
+        ;
+
+        
+    
+    
+            circle_marker_8a13dec55d5fcc768523fe8e4b071ef2.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f6c646df8db7714c20a4b33902e621fb = L.circleMarker(
+                [32.876, -117.234937],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_ad21625709e9ff251bd9a7f2ced1b15b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_77762aa9f90ed25d2058d9a4a67edfb7 = $(`<div id="html_77762aa9f90ed25d2058d9a4a67edfb7" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>High Latency<br>2026-10-24 08:40:51</div>`)[0];
+                popup_ad21625709e9ff251bd9a7f2ced1b15b.setContent(html_77762aa9f90ed25d2058d9a4a67edfb7);
+            
+        
+
+        circle_marker_f6c646df8db7714c20a4b33902e621fb.bindPopup(popup_ad21625709e9ff251bd9a7f2ced1b15b)
+        ;
+
+        
+    
+    
+            circle_marker_f6c646df8db7714c20a4b33902e621fb.bindTooltip(
+                `<div>
+                     High Latency - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a51ddd604a0dc2bc66223ed4342e6ca9 = L.circleMarker(
+                [32.878146, -117.230802],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_42fdc77670fe6a55c0b77bc674d5bbc6 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e3467f521213af37e83136dc7a054f7b = $(`<div id="html_e3467f521213af37e83136dc7a054f7b" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-24 08:24:56</div>`)[0];
+                popup_42fdc77670fe6a55c0b77bc674d5bbc6.setContent(html_e3467f521213af37e83136dc7a054f7b);
+            
+        
+
+        circle_marker_a51ddd604a0dc2bc66223ed4342e6ca9.bindPopup(popup_42fdc77670fe6a55c0b77bc674d5bbc6)
+        ;
+
+        
+    
+    
+            circle_marker_a51ddd604a0dc2bc66223ed4342e6ca9.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_526f65da544d453d51e2af7d94004459 = L.circleMarker(
+                [32.88042, -117.235948],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_0a500e24fca7e9a3b6ce535bceea8b21 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cab99876c4f2277fd39950453e4621ac = $(`<div id="html_cab99876c4f2277fd39950453e4621ac" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>High Latency<br>2026-10-24 08:22:41</div>`)[0];
+                popup_0a500e24fca7e9a3b6ce535bceea8b21.setContent(html_cab99876c4f2277fd39950453e4621ac);
+            
+        
+
+        circle_marker_526f65da544d453d51e2af7d94004459.bindPopup(popup_0a500e24fca7e9a3b6ce535bceea8b21)
+        ;
+
+        
+    
+    
+            circle_marker_526f65da544d453d51e2af7d94004459.bindTooltip(
+                `<div>
+                     High Latency - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c52ceb3ff355ebb088122822dcc8bccb = L.circleMarker(
+                [32.881536, -117.239461],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_c214fac7a6a38c4a7994c42503e5eef8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f30a50adfba4e22cb0aa8f68da4ebfc4 = $(`<div id="html_f30a50adfba4e22cb0aa8f68da4ebfc4" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-24 08:05:49</div>`)[0];
+                popup_c214fac7a6a38c4a7994c42503e5eef8.setContent(html_f30a50adfba4e22cb0aa8f68da4ebfc4);
+            
+        
+
+        circle_marker_c52ceb3ff355ebb088122822dcc8bccb.bindPopup(popup_c214fac7a6a38c4a7994c42503e5eef8)
+        ;
+
+        
+    
+    
+            circle_marker_c52ceb3ff355ebb088122822dcc8bccb.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_fdc4fe6f5147879bf89279fe3dfbcac0 = L.circleMarker(
+                [32.882143, -117.233808],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_a69c42d9c9186943cfd4b4bf4c1a8208 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d9d592efca5826c19a03f5ad44c7053b = $(`<div id="html_d9d592efca5826c19a03f5ad44c7053b" style="width: 100.0%; height: 100.0%;">ResNet<br>High Latency<br>2026-10-24 07:48:46</div>`)[0];
+                popup_a69c42d9c9186943cfd4b4bf4c1a8208.setContent(html_d9d592efca5826c19a03f5ad44c7053b);
+            
+        
+
+        circle_marker_fdc4fe6f5147879bf89279fe3dfbcac0.bindPopup(popup_a69c42d9c9186943cfd4b4bf4c1a8208)
+        ;
+
+        
+    
+    
+            circle_marker_fdc4fe6f5147879bf89279fe3dfbcac0.bindTooltip(
+                `<div>
+                     High Latency - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1f6bcc5d58562d09affc3a69e7ae15da = L.circleMarker(
+                [32.88024, -117.232322],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_ba2fe8a2c8060f21246ad35564f98acf = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cbe65dcfb09f87502098e2fefe71ea0d = $(`<div id="html_cbe65dcfb09f87502098e2fefe71ea0d" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-24 07:46:42</div>`)[0];
+                popup_ba2fe8a2c8060f21246ad35564f98acf.setContent(html_cbe65dcfb09f87502098e2fefe71ea0d);
+            
+        
+
+        circle_marker_1f6bcc5d58562d09affc3a69e7ae15da.bindPopup(popup_ba2fe8a2c8060f21246ad35564f98acf)
+        ;
+
+        
+    
+    
+            circle_marker_1f6bcc5d58562d09affc3a69e7ae15da.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_aa2d87f7a83961e86a7fd4f95529ade2 = L.circleMarker(
+                [32.882808, -117.23478],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_ea70d605b71b2923a5f4e216924fddc3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_42da624f8da1d307b68490f7e72c085f = $(`<div id="html_42da624f8da1d307b68490f7e72c085f" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-24 07:39:01</div>`)[0];
+                popup_ea70d605b71b2923a5f4e216924fddc3.setContent(html_42da624f8da1d307b68490f7e72c085f);
+            
+        
+
+        circle_marker_aa2d87f7a83961e86a7fd4f95529ade2.bindPopup(popup_ea70d605b71b2923a5f4e216924fddc3)
+        ;
+
+        
+    
+    
+            circle_marker_aa2d87f7a83961e86a7fd4f95529ade2.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2a5ceed05fc3d3ec513b6dd73e9bbba4 = L.circleMarker(
+                [32.880606, -117.234116],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_9f05d50709363b2058e6609fc3eb6844 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_df65c4850e3f70768fc4801e21734071 = $(`<div id="html_df65c4850e3f70768fc4801e21734071" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>High Latency<br>2026-10-24 07:09:36</div>`)[0];
+                popup_9f05d50709363b2058e6609fc3eb6844.setContent(html_df65c4850e3f70768fc4801e21734071);
+            
+        
+
+        circle_marker_2a5ceed05fc3d3ec513b6dd73e9bbba4.bindPopup(popup_9f05d50709363b2058e6609fc3eb6844)
+        ;
+
+        
+    
+    
+            circle_marker_2a5ceed05fc3d3ec513b6dd73e9bbba4.bindTooltip(
+                `<div>
+                     High Latency - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_145cd131548ee83b6f96e9309c683bf0 = L.circleMarker(
+                [32.880662, -117.228622],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_b82fedb07fd8d16909d5b281cba5bb9d = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2776c73bfdd7634b3a41c38b12bb86cd = $(`<div id="html_2776c73bfdd7634b3a41c38b12bb86cd" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-24 07:07:55</div>`)[0];
+                popup_b82fedb07fd8d16909d5b281cba5bb9d.setContent(html_2776c73bfdd7634b3a41c38b12bb86cd);
+            
+        
+
+        circle_marker_145cd131548ee83b6f96e9309c683bf0.bindPopup(popup_b82fedb07fd8d16909d5b281cba5bb9d)
+        ;
+
+        
+    
+    
+            circle_marker_145cd131548ee83b6f96e9309c683bf0.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4096f0dd2d48c4d2aea93ad3e2d05e4b = L.circleMarker(
+                [32.878252, -117.236799],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_c05be0fcd93eaa2505b254d190c9f1fa = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b9c3fc90e41f1df95c59f885d4105180 = $(`<div id="html_b9c3fc90e41f1df95c59f885d4105180" style="width: 100.0%; height: 100.0%;">eduroam<br>High Latency<br>2026-10-24 07:01:12</div>`)[0];
+                popup_c05be0fcd93eaa2505b254d190c9f1fa.setContent(html_b9c3fc90e41f1df95c59f885d4105180);
+            
+        
+
+        circle_marker_4096f0dd2d48c4d2aea93ad3e2d05e4b.bindPopup(popup_c05be0fcd93eaa2505b254d190c9f1fa)
+        ;
+
+        
+    
+    
+            circle_marker_4096f0dd2d48c4d2aea93ad3e2d05e4b.bindTooltip(
+                `<div>
+                     High Latency - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3e51516d9b6cdf41cb21c78d3016559f = L.circleMarker(
+                [32.878495, -117.230968],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_32f793e8910c166e148e838ee391daf2 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0c0abb834fbf9d58a2f2d287afb856ab = $(`<div id="html_0c0abb834fbf9d58a2f2d287afb856ab" style="width: 100.0%; height: 100.0%;">ResNet<br>High Latency<br>2026-10-24 06:54:47</div>`)[0];
+                popup_32f793e8910c166e148e838ee391daf2.setContent(html_0c0abb834fbf9d58a2f2d287afb856ab);
+            
+        
+
+        circle_marker_3e51516d9b6cdf41cb21c78d3016559f.bindPopup(popup_32f793e8910c166e148e838ee391daf2)
+        ;
+
+        
+    
+    
+            circle_marker_3e51516d9b6cdf41cb21c78d3016559f.bindTooltip(
+                `<div>
+                     High Latency - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_95fdbfdf64cfedec256f74a7386f4f91 = L.circleMarker(
+                [32.878957, -117.237919],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_6a70771a0822bbcb6b49f588f0bd6074 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8ff22d56047efd21db4d548f18c559b7 = $(`<div id="html_8ff22d56047efd21db4d548f18c559b7" style="width: 100.0%; height: 100.0%;">eduroam<br>High Latency<br>2026-10-24 06:48:28</div>`)[0];
+                popup_6a70771a0822bbcb6b49f588f0bd6074.setContent(html_8ff22d56047efd21db4d548f18c559b7);
+            
+        
+
+        circle_marker_95fdbfdf64cfedec256f74a7386f4f91.bindPopup(popup_6a70771a0822bbcb6b49f588f0bd6074)
+        ;
+
+        
+    
+    
+            circle_marker_95fdbfdf64cfedec256f74a7386f4f91.bindTooltip(
+                `<div>
+                     High Latency - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_78584ebb44e17e1ac0de45eae6d28127 = L.circleMarker(
+                [32.881125, -117.235322],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_8e85f594400c476160c2a0dce21e231a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_281d888307f9a0a11cf56a49487523f0 = $(`<div id="html_281d888307f9a0a11cf56a49487523f0" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-24 05:53:52</div>`)[0];
+                popup_8e85f594400c476160c2a0dce21e231a.setContent(html_281d888307f9a0a11cf56a49487523f0);
+            
+        
+
+        circle_marker_78584ebb44e17e1ac0de45eae6d28127.bindPopup(popup_8e85f594400c476160c2a0dce21e231a)
+        ;
+
+        
+    
+    
+            circle_marker_78584ebb44e17e1ac0de45eae6d28127.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bee8d93fb63912ce874040ae1da91d8b = L.circleMarker(
+                [32.878352, -117.237815],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_45e306a4acb657272f73ce23dcfadd58 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0550bf1ec0b27593ff2c7c3168944d35 = $(`<div id="html_0550bf1ec0b27593ff2c7c3168944d35" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-24 05:34:47</div>`)[0];
+                popup_45e306a4acb657272f73ce23dcfadd58.setContent(html_0550bf1ec0b27593ff2c7c3168944d35);
+            
+        
+
+        circle_marker_bee8d93fb63912ce874040ae1da91d8b.bindPopup(popup_45e306a4acb657272f73ce23dcfadd58)
+        ;
+
+        
+    
+    
+            circle_marker_bee8d93fb63912ce874040ae1da91d8b.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d1165a0420bf13a9565dbf1c61d1592b = L.circleMarker(
+                [32.885807, -117.239345],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_33ec4bd0576e46855f38f8148cd9dc25 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_231442ff841d200200ece934e36a580b = $(`<div id="html_231442ff841d200200ece934e36a580b" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>High Latency<br>2026-10-24 05:02:41</div>`)[0];
+                popup_33ec4bd0576e46855f38f8148cd9dc25.setContent(html_231442ff841d200200ece934e36a580b);
+            
+        
+
+        circle_marker_d1165a0420bf13a9565dbf1c61d1592b.bindPopup(popup_33ec4bd0576e46855f38f8148cd9dc25)
+        ;
+
+        
+    
+    
+            circle_marker_d1165a0420bf13a9565dbf1c61d1592b.bindTooltip(
+                `<div>
+                     High Latency - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d8b14459b4fa57c62599d97d08bf8337 = L.circleMarker(
+                [32.882192, -117.230695],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_2c010a0e9d467e8ee7311914b071f9a0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7432681f6db9cc3f6b4ebd875670ce41 = $(`<div id="html_7432681f6db9cc3f6b4ebd875670ce41" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-24 04:49:26</div>`)[0];
+                popup_2c010a0e9d467e8ee7311914b071f9a0.setContent(html_7432681f6db9cc3f6b4ebd875670ce41);
+            
+        
+
+        circle_marker_d8b14459b4fa57c62599d97d08bf8337.bindPopup(popup_2c010a0e9d467e8ee7311914b071f9a0)
+        ;
+
+        
+    
+    
+            circle_marker_d8b14459b4fa57c62599d97d08bf8337.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2cb9a65d2955ee5aeafbc6f5f671a2e1 = L.circleMarker(
+                [32.878017, -117.232144],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_ece34e5c2f18dd6f93189c3ac311c289 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_43d0a690f001a776f4d02071c7a6118a = $(`<div id="html_43d0a690f001a776f4d02071c7a6118a" style="width: 100.0%; height: 100.0%;">eduroam<br>High Latency<br>2026-10-24 04:49:08</div>`)[0];
+                popup_ece34e5c2f18dd6f93189c3ac311c289.setContent(html_43d0a690f001a776f4d02071c7a6118a);
+            
+        
+
+        circle_marker_2cb9a65d2955ee5aeafbc6f5f671a2e1.bindPopup(popup_ece34e5c2f18dd6f93189c3ac311c289)
+        ;
+
+        
+    
+    
+            circle_marker_2cb9a65d2955ee5aeafbc6f5f671a2e1.bindTooltip(
+                `<div>
+                     High Latency - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b77563d7b1051c254cd5e1fb8cd5e022 = L.circleMarker(
+                [32.88141, -117.235588],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_75edd7ce6c8fa84fac041e589e1d7fb9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b6b6ebffeee3df9efc4b0a0bc2bf0a5f = $(`<div id="html_b6b6ebffeee3df9efc4b0a0bc2bf0a5f" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-24 03:24:18</div>`)[0];
+                popup_75edd7ce6c8fa84fac041e589e1d7fb9.setContent(html_b6b6ebffeee3df9efc4b0a0bc2bf0a5f);
+            
+        
+
+        circle_marker_b77563d7b1051c254cd5e1fb8cd5e022.bindPopup(popup_75edd7ce6c8fa84fac041e589e1d7fb9)
+        ;
+
+        
+    
+    
+            circle_marker_b77563d7b1051c254cd5e1fb8cd5e022.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2584131eace356400831c0f48fdd6ac0 = L.circleMarker(
+                [32.871911, -117.235038],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_24610f9c7dd26576dfaf189f470f92e4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_99a51cfdb5c842eec1bb97cd9f2b2811 = $(`<div id="html_99a51cfdb5c842eec1bb97cd9f2b2811" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-24 02:47:41</div>`)[0];
+                popup_24610f9c7dd26576dfaf189f470f92e4.setContent(html_99a51cfdb5c842eec1bb97cd9f2b2811);
+            
+        
+
+        circle_marker_2584131eace356400831c0f48fdd6ac0.bindPopup(popup_24610f9c7dd26576dfaf189f470f92e4)
+        ;
+
+        
+    
+    
+            circle_marker_2584131eace356400831c0f48fdd6ac0.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4610993b38d18e957e81dd7a2d6c52db = L.circleMarker(
+                [32.88463, -117.231417],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_a8aaacc46f0156bf35796f39b6f297fc = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9d7b627e328508b8ca122a2b647f6594 = $(`<div id="html_9d7b627e328508b8ca122a2b647f6594" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-24 02:39:37</div>`)[0];
+                popup_a8aaacc46f0156bf35796f39b6f297fc.setContent(html_9d7b627e328508b8ca122a2b647f6594);
+            
+        
+
+        circle_marker_4610993b38d18e957e81dd7a2d6c52db.bindPopup(popup_a8aaacc46f0156bf35796f39b6f297fc)
+        ;
+
+        
+    
+    
+            circle_marker_4610993b38d18e957e81dd7a2d6c52db.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_eb6b7e684ab0f900fdf07dde0c2672cf = L.circleMarker(
+                [32.879976, -117.2299],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_ca2cb4030fa92c731c9d924911f911fd = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_61a28cc14a8dab5aae501278238250d7 = $(`<div id="html_61a28cc14a8dab5aae501278238250d7" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-24 02:33:51</div>`)[0];
+                popup_ca2cb4030fa92c731c9d924911f911fd.setContent(html_61a28cc14a8dab5aae501278238250d7);
+            
+        
+
+        circle_marker_eb6b7e684ab0f900fdf07dde0c2672cf.bindPopup(popup_ca2cb4030fa92c731c9d924911f911fd)
+        ;
+
+        
+    
+    
+            circle_marker_eb6b7e684ab0f900fdf07dde0c2672cf.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0f2205f5402fe7b3919a9992699e19b0 = L.circleMarker(
+                [32.874991, -117.233035],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_0d33c5a544a07f6ade069f7c092551c9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_177673d89b5c551fb683bb6871de33a8 = $(`<div id="html_177673d89b5c551fb683bb6871de33a8" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-24 02:09:04</div>`)[0];
+                popup_0d33c5a544a07f6ade069f7c092551c9.setContent(html_177673d89b5c551fb683bb6871de33a8);
+            
+        
+
+        circle_marker_0f2205f5402fe7b3919a9992699e19b0.bindPopup(popup_0d33c5a544a07f6ade069f7c092551c9)
+        ;
+
+        
+    
+    
+            circle_marker_0f2205f5402fe7b3919a9992699e19b0.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2d30a431bc4086ca4f4969e94182c08b = L.circleMarker(
+                [32.876432, -117.236592],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_cfdb7d545d0d86d61e23e65d254aa805 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3d8b87c0cce67fdedeebefb424c0630e = $(`<div id="html_3d8b87c0cce67fdedeebefb424c0630e" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-24 01:51:53</div>`)[0];
+                popup_cfdb7d545d0d86d61e23e65d254aa805.setContent(html_3d8b87c0cce67fdedeebefb424c0630e);
+            
+        
+
+        circle_marker_2d30a431bc4086ca4f4969e94182c08b.bindPopup(popup_cfdb7d545d0d86d61e23e65d254aa805)
+        ;
+
+        
+    
+    
+            circle_marker_2d30a431bc4086ca4f4969e94182c08b.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ee7aad1f7e7b1264ae32dbb93b59dc56 = L.circleMarker(
+                [32.879073, -117.237573],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_f60c7e45aa0e4c7a85630eacde65b9f3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_47097b84162a4d34af50006487fb4cd1 = $(`<div id="html_47097b84162a4d34af50006487fb4cd1" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>High Latency<br>2026-10-24 01:22:31</div>`)[0];
+                popup_f60c7e45aa0e4c7a85630eacde65b9f3.setContent(html_47097b84162a4d34af50006487fb4cd1);
+            
+        
+
+        circle_marker_ee7aad1f7e7b1264ae32dbb93b59dc56.bindPopup(popup_f60c7e45aa0e4c7a85630eacde65b9f3)
+        ;
+
+        
+    
+    
+            circle_marker_ee7aad1f7e7b1264ae32dbb93b59dc56.bindTooltip(
+                `<div>
+                     High Latency - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1b41a5818f9026c62739c08d312a3887 = L.circleMarker(
+                [32.882401, -117.234962],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_c7883e5ae0dd33fe492c52b3733cd59b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_dd78bfda90c8636cf3a83dc5aff80990 = $(`<div id="html_dd78bfda90c8636cf3a83dc5aff80990" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-24 01:17:52</div>`)[0];
+                popup_c7883e5ae0dd33fe492c52b3733cd59b.setContent(html_dd78bfda90c8636cf3a83dc5aff80990);
+            
+        
+
+        circle_marker_1b41a5818f9026c62739c08d312a3887.bindPopup(popup_c7883e5ae0dd33fe492c52b3733cd59b)
+        ;
+
+        
+    
+    
+            circle_marker_1b41a5818f9026c62739c08d312a3887.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_add593ef740de794d7ac55cb587500ce = L.circleMarker(
+                [32.881292, -117.233421],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_e1644149dc839cbbb797cf97ffaf8a8c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_42561de968b887cd5a5379e436941061 = $(`<div id="html_42561de968b887cd5a5379e436941061" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>High Latency<br>2026-10-24 01:11:26</div>`)[0];
+                popup_e1644149dc839cbbb797cf97ffaf8a8c.setContent(html_42561de968b887cd5a5379e436941061);
+            
+        
+
+        circle_marker_add593ef740de794d7ac55cb587500ce.bindPopup(popup_e1644149dc839cbbb797cf97ffaf8a8c)
+        ;
+
+        
+    
+    
+            circle_marker_add593ef740de794d7ac55cb587500ce.bindTooltip(
+                `<div>
+                     High Latency - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0ba4a89de4b32dab6112c2bd9e2073c8 = L.circleMarker(
+                [32.879214, -117.234852],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_b801eabbc1cd6cba13811916c60ccd37 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ecf152587f0e7bec4ed9e8a7776b2a99 = $(`<div id="html_ecf152587f0e7bec4ed9e8a7776b2a99" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-24 01:05:24</div>`)[0];
+                popup_b801eabbc1cd6cba13811916c60ccd37.setContent(html_ecf152587f0e7bec4ed9e8a7776b2a99);
+            
+        
+
+        circle_marker_0ba4a89de4b32dab6112c2bd9e2073c8.bindPopup(popup_b801eabbc1cd6cba13811916c60ccd37)
+        ;
+
+        
+    
+    
+            circle_marker_0ba4a89de4b32dab6112c2bd9e2073c8.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ebadcab080fabf84b87d2bf8c0dfbefb = L.circleMarker(
+                [32.880649, -117.232057],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_58c5102c2fe9d681b5df1026166efacf = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_bad1f79877f557bda93f29d2be0af1d8 = $(`<div id="html_bad1f79877f557bda93f29d2be0af1d8" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-24 00:25:27</div>`)[0];
+                popup_58c5102c2fe9d681b5df1026166efacf.setContent(html_bad1f79877f557bda93f29d2be0af1d8);
+            
+        
+
+        circle_marker_ebadcab080fabf84b87d2bf8c0dfbefb.bindPopup(popup_58c5102c2fe9d681b5df1026166efacf)
+        ;
+
+        
+    
+    
+            circle_marker_ebadcab080fabf84b87d2bf8c0dfbefb.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_012a1bcd296ccbc76156bdc77d194454 = L.circleMarker(
+                [32.880161, -117.231361],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_b820d8c2930694bffc33cfd8550ae62c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8f3b0190cb36a7c8c6ca8aca8365c83b = $(`<div id="html_8f3b0190cb36a7c8c6ca8aca8365c83b" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-24 00:17:20</div>`)[0];
+                popup_b820d8c2930694bffc33cfd8550ae62c.setContent(html_8f3b0190cb36a7c8c6ca8aca8365c83b);
+            
+        
+
+        circle_marker_012a1bcd296ccbc76156bdc77d194454.bindPopup(popup_b820d8c2930694bffc33cfd8550ae62c)
+        ;
+
+        
+    
+    
+            circle_marker_012a1bcd296ccbc76156bdc77d194454.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_feaed8cf073ad4f414a19b5471ff534e = L.circleMarker(
+                [32.885062, -117.230444],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_fe6ba665a9a5c36d5a582d54ee715213 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5ab3b7d1ec03d18d925a6ff02c3b417c = $(`<div id="html_5ab3b7d1ec03d18d925a6ff02c3b417c" style="width: 100.0%; height: 100.0%;">eduroam<br>High Latency<br>2026-10-24 00:05:38</div>`)[0];
+                popup_fe6ba665a9a5c36d5a582d54ee715213.setContent(html_5ab3b7d1ec03d18d925a6ff02c3b417c);
+            
+        
+
+        circle_marker_feaed8cf073ad4f414a19b5471ff534e.bindPopup(popup_fe6ba665a9a5c36d5a582d54ee715213)
+        ;
+
+        
+    
+    
+            circle_marker_feaed8cf073ad4f414a19b5471ff534e.bindTooltip(
+                `<div>
+                     High Latency - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2c381d7e93814959569acbe610ab6f4f = L.circleMarker(
+                [32.876002, -117.230556],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_a7267e65c3ec9cf2847e23de0dfd6ded = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_3a83a380e0d53a9ad8509ca00fb246e9 = $(`<div id="html_3a83a380e0d53a9ad8509ca00fb246e9" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-24 00:02:08</div>`)[0];
+                popup_a7267e65c3ec9cf2847e23de0dfd6ded.setContent(html_3a83a380e0d53a9ad8509ca00fb246e9);
+            
+        
+
+        circle_marker_2c381d7e93814959569acbe610ab6f4f.bindPopup(popup_a7267e65c3ec9cf2847e23de0dfd6ded)
+        ;
+
+        
+    
+    
+            circle_marker_2c381d7e93814959569acbe610ab6f4f.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5873a1791c4562b20e60698358262f05 = L.circleMarker(
+                [32.885742, -117.234913],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_126c241c8c27b3893bed8014915bf5f1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_baaa4ca3c1c63146a166cf35d0bd791d = $(`<div id="html_baaa4ca3c1c63146a166cf35d0bd791d" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-23 23:54:31</div>`)[0];
+                popup_126c241c8c27b3893bed8014915bf5f1.setContent(html_baaa4ca3c1c63146a166cf35d0bd791d);
+            
+        
+
+        circle_marker_5873a1791c4562b20e60698358262f05.bindPopup(popup_126c241c8c27b3893bed8014915bf5f1)
+        ;
+
+        
+    
+    
+            circle_marker_5873a1791c4562b20e60698358262f05.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_635759eec35909bf55c2596cb8de2b8d = L.circleMarker(
+                [32.882637, -117.239119],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_667a2c6ebe8bd1fc6f73b0da9241e4eb = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a21e7fae5c35670f4e198e865cbfa29f = $(`<div id="html_a21e7fae5c35670f4e198e865cbfa29f" style="width: 100.0%; height: 100.0%;">ResNet<br>High Latency<br>2026-10-23 23:21:21</div>`)[0];
+                popup_667a2c6ebe8bd1fc6f73b0da9241e4eb.setContent(html_a21e7fae5c35670f4e198e865cbfa29f);
+            
+        
+
+        circle_marker_635759eec35909bf55c2596cb8de2b8d.bindPopup(popup_667a2c6ebe8bd1fc6f73b0da9241e4eb)
+        ;
+
+        
+    
+    
+            circle_marker_635759eec35909bf55c2596cb8de2b8d.bindTooltip(
+                `<div>
+                     High Latency - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_32a6e4bc6939d2192b40940cf0b580b5 = L.circleMarker(
+                [32.871531, -117.237564],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_9b0896f0814e492ddde4dd300b0d0ed1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5c89e3c1d934c6a77d0fcf873717ea85 = $(`<div id="html_5c89e3c1d934c6a77d0fcf873717ea85" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-23 22:59:47</div>`)[0];
+                popup_9b0896f0814e492ddde4dd300b0d0ed1.setContent(html_5c89e3c1d934c6a77d0fcf873717ea85);
+            
+        
+
+        circle_marker_32a6e4bc6939d2192b40940cf0b580b5.bindPopup(popup_9b0896f0814e492ddde4dd300b0d0ed1)
+        ;
+
+        
+    
+    
+            circle_marker_32a6e4bc6939d2192b40940cf0b580b5.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_13602f5009527c8b8423e0d42023bfa7 = L.circleMarker(
+                [32.870358, -117.232149],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_c55da60103b650f4ee88ca68d1d964a0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_54d3e8272ebd27ca385fcdb99afae130 = $(`<div id="html_54d3e8272ebd27ca385fcdb99afae130" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-23 22:48:54</div>`)[0];
+                popup_c55da60103b650f4ee88ca68d1d964a0.setContent(html_54d3e8272ebd27ca385fcdb99afae130);
+            
+        
+
+        circle_marker_13602f5009527c8b8423e0d42023bfa7.bindPopup(popup_c55da60103b650f4ee88ca68d1d964a0)
+        ;
+
+        
+    
+    
+            circle_marker_13602f5009527c8b8423e0d42023bfa7.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7733cd6e36513bac51f242e429f81a6b = L.circleMarker(
+                [32.878371, -117.231832],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_cd2b8fc1a82a39288de7342fcce56159 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cc599659977b5aabe96befb42faf0ddc = $(`<div id="html_cc599659977b5aabe96befb42faf0ddc" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-23 22:07:35</div>`)[0];
+                popup_cd2b8fc1a82a39288de7342fcce56159.setContent(html_cc599659977b5aabe96befb42faf0ddc);
+            
+        
+
+        circle_marker_7733cd6e36513bac51f242e429f81a6b.bindPopup(popup_cd2b8fc1a82a39288de7342fcce56159)
+        ;
+
+        
+    
+    
+            circle_marker_7733cd6e36513bac51f242e429f81a6b.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_74f70de38f9c3e2fa63afc836978e154 = L.circleMarker(
+                [32.885502, -117.231418],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_a794ffa752ec5da52e40047ec1ce486b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_471577007d1df6b822a485ad07c95596 = $(`<div id="html_471577007d1df6b822a485ad07c95596" style="width: 100.0%; height: 100.0%;">eduroam<br>High Latency<br>2026-10-23 21:56:20</div>`)[0];
+                popup_a794ffa752ec5da52e40047ec1ce486b.setContent(html_471577007d1df6b822a485ad07c95596);
+            
+        
+
+        circle_marker_74f70de38f9c3e2fa63afc836978e154.bindPopup(popup_a794ffa752ec5da52e40047ec1ce486b)
+        ;
+
+        
+    
+    
+            circle_marker_74f70de38f9c3e2fa63afc836978e154.bindTooltip(
+                `<div>
+                     High Latency - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3ab2652820971f8e1add1b03c7456cc0 = L.circleMarker(
+                [32.884352, -117.23344],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_d08292b131385db5c74343ea25166a32 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2cd04bef7a94fb56342893c0200b31ee = $(`<div id="html_2cd04bef7a94fb56342893c0200b31ee" style="width: 100.0%; height: 100.0%;">ResNet<br>High Latency<br>2026-10-23 21:52:23</div>`)[0];
+                popup_d08292b131385db5c74343ea25166a32.setContent(html_2cd04bef7a94fb56342893c0200b31ee);
+            
+        
+
+        circle_marker_3ab2652820971f8e1add1b03c7456cc0.bindPopup(popup_d08292b131385db5c74343ea25166a32)
+        ;
+
+        
+    
+    
+            circle_marker_3ab2652820971f8e1add1b03c7456cc0.bindTooltip(
+                `<div>
+                     High Latency - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3ee78145270062159ce5455cf7e59a2f = L.circleMarker(
+                [32.882577, -117.23022],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_23628e998b87bb77385f31403a97f45c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8b13c035c8c73a56917a2da258019c1e = $(`<div id="html_8b13c035c8c73a56917a2da258019c1e" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-23 21:22:46</div>`)[0];
+                popup_23628e998b87bb77385f31403a97f45c.setContent(html_8b13c035c8c73a56917a2da258019c1e);
+            
+        
+
+        circle_marker_3ee78145270062159ce5455cf7e59a2f.bindPopup(popup_23628e998b87bb77385f31403a97f45c)
+        ;
+
+        
+    
+    
+            circle_marker_3ee78145270062159ce5455cf7e59a2f.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_412e81ffe1b08add6525c9bf14028f34 = L.circleMarker(
+                [32.885119, -117.223538],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_0948f03a613a75d988912674f611301a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_62e616a4e7262f6d3e76521bd3319f31 = $(`<div id="html_62e616a4e7262f6d3e76521bd3319f31" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-23 21:19:23</div>`)[0];
+                popup_0948f03a613a75d988912674f611301a.setContent(html_62e616a4e7262f6d3e76521bd3319f31);
+            
+        
+
+        circle_marker_412e81ffe1b08add6525c9bf14028f34.bindPopup(popup_0948f03a613a75d988912674f611301a)
+        ;
+
+        
+    
+    
+            circle_marker_412e81ffe1b08add6525c9bf14028f34.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_94c41d66219841e8274581bfd0377e2b = L.circleMarker(
+                [32.877664, -117.233524],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_ba424c4da60cd5900a6ff36ebd42dd3f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_94d7b0754b6469d08dc9550ec9cc2df7 = $(`<div id="html_94d7b0754b6469d08dc9550ec9cc2df7" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-23 21:16:04</div>`)[0];
+                popup_ba424c4da60cd5900a6ff36ebd42dd3f.setContent(html_94d7b0754b6469d08dc9550ec9cc2df7);
+            
+        
+
+        circle_marker_94c41d66219841e8274581bfd0377e2b.bindPopup(popup_ba424c4da60cd5900a6ff36ebd42dd3f)
+        ;
+
+        
+    
+    
+            circle_marker_94c41d66219841e8274581bfd0377e2b.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_69b0edf262b7f859a24f73195ef37838 = L.circleMarker(
+                [32.87607, -117.233045],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_53d7d8326d95002ba7d15c85a03ad650 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_cf979b5724eb21b6e05ad9dc16fb6b06 = $(`<div id="html_cf979b5724eb21b6e05ad9dc16fb6b06" style="width: 100.0%; height: 100.0%;">eduroam<br>High Latency<br>2026-10-23 21:02:29</div>`)[0];
+                popup_53d7d8326d95002ba7d15c85a03ad650.setContent(html_cf979b5724eb21b6e05ad9dc16fb6b06);
+            
+        
+
+        circle_marker_69b0edf262b7f859a24f73195ef37838.bindPopup(popup_53d7d8326d95002ba7d15c85a03ad650)
+        ;
+
+        
+    
+    
+            circle_marker_69b0edf262b7f859a24f73195ef37838.bindTooltip(
+                `<div>
+                     High Latency - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_cfe1db4f485af1b7a19727635efad0a6 = L.circleMarker(
+                [32.8783, -117.237406],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_86f0d76c92c4e0c4f08660809190e982 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_916dfbf17962df7025d9b5fc5699b29f = $(`<div id="html_916dfbf17962df7025d9b5fc5699b29f" style="width: 100.0%; height: 100.0%;">eduroam<br>High Latency<br>2026-10-23 21:02:10</div>`)[0];
+                popup_86f0d76c92c4e0c4f08660809190e982.setContent(html_916dfbf17962df7025d9b5fc5699b29f);
+            
+        
+
+        circle_marker_cfe1db4f485af1b7a19727635efad0a6.bindPopup(popup_86f0d76c92c4e0c4f08660809190e982)
+        ;
+
+        
+    
+    
+            circle_marker_cfe1db4f485af1b7a19727635efad0a6.bindTooltip(
+                `<div>
+                     High Latency - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d1d7617263c77afed6dd7faff54308a5 = L.circleMarker(
+                [32.880974, -117.230007],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_fd47c3d3f09336084df4cd21d23b64d9 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_80a99377a43d31623108981f4de13c91 = $(`<div id="html_80a99377a43d31623108981f4de13c91" style="width: 100.0%; height: 100.0%;">ResNet<br>High Latency<br>2026-10-23 20:29:36</div>`)[0];
+                popup_fd47c3d3f09336084df4cd21d23b64d9.setContent(html_80a99377a43d31623108981f4de13c91);
+            
+        
+
+        circle_marker_d1d7617263c77afed6dd7faff54308a5.bindPopup(popup_fd47c3d3f09336084df4cd21d23b64d9)
+        ;
+
+        
+    
+    
+            circle_marker_d1d7617263c77afed6dd7faff54308a5.bindTooltip(
+                `<div>
+                     High Latency - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a71ebcc8f54c5e9443aabdf75a91c34d = L.circleMarker(
+                [32.874975, -117.23213],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_0b8e2690d487158c6474d023b0abf27a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_80b251b0456b7632c410c4054c7a152a = $(`<div id="html_80b251b0456b7632c410c4054c7a152a" style="width: 100.0%; height: 100.0%;">ResNet<br>High Latency<br>2026-10-23 19:48:08</div>`)[0];
+                popup_0b8e2690d487158c6474d023b0abf27a.setContent(html_80b251b0456b7632c410c4054c7a152a);
+            
+        
+
+        circle_marker_a71ebcc8f54c5e9443aabdf75a91c34d.bindPopup(popup_0b8e2690d487158c6474d023b0abf27a)
+        ;
+
+        
+    
+    
+            circle_marker_a71ebcc8f54c5e9443aabdf75a91c34d.bindTooltip(
+                `<div>
+                     High Latency - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d9a849ad0ab6b048679e97e7750d56dc = L.circleMarker(
+                [32.883238, -117.23661],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_66ec53d9ff56bd2770570a0147b2a763 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7199d4734fcfba50bbadee45dd4fc78a = $(`<div id="html_7199d4734fcfba50bbadee45dd4fc78a" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>High Latency<br>2026-10-23 19:12:26</div>`)[0];
+                popup_66ec53d9ff56bd2770570a0147b2a763.setContent(html_7199d4734fcfba50bbadee45dd4fc78a);
+            
+        
+
+        circle_marker_d9a849ad0ab6b048679e97e7750d56dc.bindPopup(popup_66ec53d9ff56bd2770570a0147b2a763)
+        ;
+
+        
+    
+    
+            circle_marker_d9a849ad0ab6b048679e97e7750d56dc.bindTooltip(
+                `<div>
+                     High Latency - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_aa6e3553d158420ef2c1693fe1e37e11 = L.circleMarker(
+                [32.87631, -117.234163],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_f8973f64ec8b524798813f7e1df6e934 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_13c06ddea913ca548a1ee1ed41abc407 = $(`<div id="html_13c06ddea913ca548a1ee1ed41abc407" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-23 19:06:17</div>`)[0];
+                popup_f8973f64ec8b524798813f7e1df6e934.setContent(html_13c06ddea913ca548a1ee1ed41abc407);
+            
+        
+
+        circle_marker_aa6e3553d158420ef2c1693fe1e37e11.bindPopup(popup_f8973f64ec8b524798813f7e1df6e934)
+        ;
+
+        
+    
+    
+            circle_marker_aa6e3553d158420ef2c1693fe1e37e11.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3623d2bd0f8e4870401a3ca10fd3f628 = L.circleMarker(
+                [32.875824, -117.231399],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_cfec5bbf7454c81f23ce6f3cfa5b2a1e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_19decff8ce3f01917619e44bba865c8f = $(`<div id="html_19decff8ce3f01917619e44bba865c8f" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>High Latency<br>2026-10-23 18:46:44</div>`)[0];
+                popup_cfec5bbf7454c81f23ce6f3cfa5b2a1e.setContent(html_19decff8ce3f01917619e44bba865c8f);
+            
+        
+
+        circle_marker_3623d2bd0f8e4870401a3ca10fd3f628.bindPopup(popup_cfec5bbf7454c81f23ce6f3cfa5b2a1e)
+        ;
+
+        
+    
+    
+            circle_marker_3623d2bd0f8e4870401a3ca10fd3f628.bindTooltip(
+                `<div>
+                     High Latency - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_decacf9ccdbd5792c59dfcdaa85a898f = L.circleMarker(
+                [32.881308, -117.229655],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_559aea763e64011fc270c7472d2fe198 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_83727dab3f2c5d21772d6d183af15eb6 = $(`<div id="html_83727dab3f2c5d21772d6d183af15eb6" style="width: 100.0%; height: 100.0%;">eduroam<br>High Latency<br>2026-10-23 18:13:32</div>`)[0];
+                popup_559aea763e64011fc270c7472d2fe198.setContent(html_83727dab3f2c5d21772d6d183af15eb6);
+            
+        
+
+        circle_marker_decacf9ccdbd5792c59dfcdaa85a898f.bindPopup(popup_559aea763e64011fc270c7472d2fe198)
+        ;
+
+        
+    
+    
+            circle_marker_decacf9ccdbd5792c59dfcdaa85a898f.bindTooltip(
+                `<div>
+                     High Latency - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b00fc98a8cf98dbbd95f7bd20dc9681a = L.circleMarker(
+                [32.882213, -117.23231],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_dff81ea4fd96febd7ca6d6298ca20168 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_028fa148bcf0b7cc5f9fafee2086ab3a = $(`<div id="html_028fa148bcf0b7cc5f9fafee2086ab3a" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-23 18:05:30</div>`)[0];
+                popup_dff81ea4fd96febd7ca6d6298ca20168.setContent(html_028fa148bcf0b7cc5f9fafee2086ab3a);
+            
+        
+
+        circle_marker_b00fc98a8cf98dbbd95f7bd20dc9681a.bindPopup(popup_dff81ea4fd96febd7ca6d6298ca20168)
+        ;
+
+        
+    
+    
+            circle_marker_b00fc98a8cf98dbbd95f7bd20dc9681a.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6780d8e230f3c328426873cb26cdffe2 = L.circleMarker(
+                [32.881438, -117.234126],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_faf9460f6a2e5abea664c0e1acdbf5d8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ff8fbe9e4ac53cb24881f1db1f1fea2c = $(`<div id="html_ff8fbe9e4ac53cb24881f1db1f1fea2c" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-23 17:58:38</div>`)[0];
+                popup_faf9460f6a2e5abea664c0e1acdbf5d8.setContent(html_ff8fbe9e4ac53cb24881f1db1f1fea2c);
+            
+        
+
+        circle_marker_6780d8e230f3c328426873cb26cdffe2.bindPopup(popup_faf9460f6a2e5abea664c0e1acdbf5d8)
+        ;
+
+        
+    
+    
+            circle_marker_6780d8e230f3c328426873cb26cdffe2.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4c2f1a318e1288fd233bda20b9a6aa7e = L.circleMarker(
+                [32.879988, -117.237734],
+                {"bubblingMouseEvents": true, "color": "orange", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "orange", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_705cd5c3efcabb592d00f9ee48868604 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_0d9631d010f80f82942b06056ca966f3 = $(`<div id="html_0d9631d010f80f82942b06056ca966f3" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>High Latency<br>2026-10-23 17:03:42</div>`)[0];
+                popup_705cd5c3efcabb592d00f9ee48868604.setContent(html_0d9631d010f80f82942b06056ca966f3);
+            
+        
+
+        circle_marker_4c2f1a318e1288fd233bda20b9a6aa7e.bindPopup(popup_705cd5c3efcabb592d00f9ee48868604)
+        ;
+
+        
+    
+    
+            circle_marker_4c2f1a318e1288fd233bda20b9a6aa7e.bindTooltip(
+                `<div>
+                     High Latency - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_090c8596fce8433adf042b84f92077dc = L.circleMarker(
+                [32.882277, -117.23625],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_27242cd536918fb985544ee4ba6278c1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fef41e2e9ae1a21e0c54bef07626cd25 = $(`<div id="html_fef41e2e9ae1a21e0c54bef07626cd25" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-23 16:58:32</div>`)[0];
+                popup_27242cd536918fb985544ee4ba6278c1.setContent(html_fef41e2e9ae1a21e0c54bef07626cd25);
+            
+        
+
+        circle_marker_090c8596fce8433adf042b84f92077dc.bindPopup(popup_27242cd536918fb985544ee4ba6278c1)
+        ;
+
+        
+    
+    
+            circle_marker_090c8596fce8433adf042b84f92077dc.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f4bad2ec31a9f4386839ab419c25be5b = L.circleMarker(
+                [32.886228, -117.23522],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_001010e7a8a7034a7a02f4e07ac32b99 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_21a9d90621138bc6cf2a3e3436fc0959 = $(`<div id="html_21a9d90621138bc6cf2a3e3436fc0959" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-23 16:49:08</div>`)[0];
+                popup_001010e7a8a7034a7a02f4e07ac32b99.setContent(html_21a9d90621138bc6cf2a3e3436fc0959);
+            
+        
+
+        circle_marker_f4bad2ec31a9f4386839ab419c25be5b.bindPopup(popup_001010e7a8a7034a7a02f4e07ac32b99)
+        ;
+
+        
+    
+    
+            circle_marker_f4bad2ec31a9f4386839ab419c25be5b.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6506e1e0eed2bd2c0af92fde65f5434e = L.circleMarker(
+                [32.881179, -117.239781],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_864586e404a89eb78952e10c140fb22e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_22d09cd2233f7ce3a18344cb03571dde = $(`<div id="html_22d09cd2233f7ce3a18344cb03571dde" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-23 16:02:58</div>`)[0];
+                popup_864586e404a89eb78952e10c140fb22e.setContent(html_22d09cd2233f7ce3a18344cb03571dde);
+            
+        
+
+        circle_marker_6506e1e0eed2bd2c0af92fde65f5434e.bindPopup(popup_864586e404a89eb78952e10c140fb22e)
+        ;
+
+        
+    
+    
+            circle_marker_6506e1e0eed2bd2c0af92fde65f5434e.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e3e0d20d07bb5f8b43d92e49fa58f180 = L.circleMarker(
+                [32.877791, -117.235698],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_59d00382584b35a52a1160e46939d386 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_08dceebd321b4d7263f27f5abb4d66c6 = $(`<div id="html_08dceebd321b4d7263f27f5abb4d66c6" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-23 15:54:53</div>`)[0];
+                popup_59d00382584b35a52a1160e46939d386.setContent(html_08dceebd321b4d7263f27f5abb4d66c6);
+            
+        
+
+        circle_marker_e3e0d20d07bb5f8b43d92e49fa58f180.bindPopup(popup_59d00382584b35a52a1160e46939d386)
+        ;
+
+        
+    
+    
+            circle_marker_e3e0d20d07bb5f8b43d92e49fa58f180.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ad9bbc580fe4b9592019bfb9fd620670 = L.circleMarker(
+                [32.884133, -117.229347],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_82f2ae1a83a6cd9c1cfbfd9911103aa7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_810f0162bcd4c8f5dde871d513f42499 = $(`<div id="html_810f0162bcd4c8f5dde871d513f42499" style="width: 100.0%; height: 100.0%;">ResNet<br>Complete Disconnect<br>2026-10-23 14:55:04</div>`)[0];
+                popup_82f2ae1a83a6cd9c1cfbfd9911103aa7.setContent(html_810f0162bcd4c8f5dde871d513f42499);
+            
+        
+
+        circle_marker_ad9bbc580fe4b9592019bfb9fd620670.bindPopup(popup_82f2ae1a83a6cd9c1cfbfd9911103aa7)
+        ;
+
+        
+    
+    
+            circle_marker_ad9bbc580fe4b9592019bfb9fd620670.bindTooltip(
+                `<div>
+                     Complete Disconnect - ResNet
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4efef176d9d4a477c2b40247d5c81bfa = L.circleMarker(
+                [32.88537, -117.233419],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_18a62e4b5823dabee4d27d0465d97985 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9e29e7d63d91ff9eb598bc8ef08026f8 = $(`<div id="html_9e29e7d63d91ff9eb598bc8ef08026f8" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-23 14:41:40</div>`)[0];
+                popup_18a62e4b5823dabee4d27d0465d97985.setContent(html_9e29e7d63d91ff9eb598bc8ef08026f8);
+            
+        
+
+        circle_marker_4efef176d9d4a477c2b40247d5c81bfa.bindPopup(popup_18a62e4b5823dabee4d27d0465d97985)
+        ;
+
+        
+    
+    
+            circle_marker_4efef176d9d4a477c2b40247d5c81bfa.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c4e176c801b6a9e52eb1838df2bee689 = L.circleMarker(
+                [32.877782, -117.237009],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_3f20900f167e625f0690b0641b00ae59 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2a679cf2a36d1df282a884f64d757268 = $(`<div id="html_2a679cf2a36d1df282a884f64d757268" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-23 14:40:10</div>`)[0];
+                popup_3f20900f167e625f0690b0641b00ae59.setContent(html_2a679cf2a36d1df282a884f64d757268);
+            
+        
+
+        circle_marker_c4e176c801b6a9e52eb1838df2bee689.bindPopup(popup_3f20900f167e625f0690b0641b00ae59)
+        ;
+
+        
+    
+    
+            circle_marker_c4e176c801b6a9e52eb1838df2bee689.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_577e0a96bc22e2fecde4853c561440fa = L.circleMarker(
+                [32.881134, -117.233262],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_2749e1e9b326cb617bc61fdca23b59c1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f33b5276e58a82d757e043c5f4489236 = $(`<div id="html_f33b5276e58a82d757e043c5f4489236" style="width: 100.0%; height: 100.0%;">UCSD-Protected<br>Complete Disconnect<br>2026-10-23 14:19:23</div>`)[0];
+                popup_2749e1e9b326cb617bc61fdca23b59c1.setContent(html_f33b5276e58a82d757e043c5f4489236);
+            
+        
+
+        circle_marker_577e0a96bc22e2fecde4853c561440fa.bindPopup(popup_2749e1e9b326cb617bc61fdca23b59c1)
+        ;
+
+        
+    
+    
+            circle_marker_577e0a96bc22e2fecde4853c561440fa.bindTooltip(
+                `<div>
+                     Complete Disconnect - UCSD-Protected
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_941e585f2f7c425b55950265cd2837ad = L.circleMarker(
+                [32.880147, -117.232918],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "red", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7, "stroke": true, "weight": 3}
+            ).addTo(map_701a4b16cd74c5453183be499e8e6b0e);
+        
+    
+        var popup_34c6a6f50bdbdf31974f12a15e82ea48 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b64d41be6d02e0dc0e83a29889fe696f = $(`<div id="html_b64d41be6d02e0dc0e83a29889fe696f" style="width: 100.0%; height: 100.0%;">eduroam<br>Complete Disconnect<br>2026-10-23 13:22:15</div>`)[0];
+                popup_34c6a6f50bdbdf31974f12a15e82ea48.setContent(html_b64d41be6d02e0dc0e83a29889fe696f);
+            
+        
+
+        circle_marker_941e585f2f7c425b55950265cd2837ad.bindPopup(popup_34c6a6f50bdbdf31974f12a15e82ea48)
+        ;
+
+        
+    
+    
+            circle_marker_941e585f2f7c425b55950265cd2837ad.bindTooltip(
+                `<div>
+                     Complete Disconnect - eduroam
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>
