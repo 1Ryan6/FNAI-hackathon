@@ -19,7 +19,8 @@ def load_dotenv_if_present() -> None:
     """Load .env (repo root or ~) without external dependencies; same GEMINI_API_KEY
     / GOOGLE_API_KEY used by the other scripts in this repo."""
     here = os.path.dirname(os.path.abspath(__file__))
-    for env_path in (os.path.join(here, ".env"), os.path.expanduser("~/.env")):
+    repo_root = os.path.dirname(here)
+    for env_path in (os.path.join(here, ".env"), os.path.join(repo_root, ".env"), os.path.expanduser("~/.env")):
         if os.path.exists(env_path):
             with open(env_path, "r", encoding="utf-8") as f:
                 for line in f:
