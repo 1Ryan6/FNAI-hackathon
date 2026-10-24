@@ -18,17 +18,55 @@ ISSUES = ['Complete Disconnect', 'High Latency', 'Cannot Authenticate', 'Good Co
 BASE_LAT = 32.8801
 BASE_LON = -117.2340
 
-# Clustered locations around UCSD landmarks:
-# Geisel (32.8811, -117.2375 -> Complete Disconnect)
-# Price Center (32.8797, -117.2362 -> High Latency)
-# CSE Building (32.8818, -117.2335 -> Good Connection)
-# Biomed Library (32.8756, -117.2368 -> Good Connection)
+# Clustered locations around UCSD landmarks with realistic probabilistic variance
+# Each landmark has a predominant issue profile mixed with natural real-world noise:
 CLUSTERS = [
-    (32.8811, -117.2375, "Complete Disconnect"),
-    (32.8797, -117.2362, "High Latency"),
-    (32.8818, -117.2335, "Good Connection"),
-    (32.8756, -117.2368, "Good Connection"),
+    {
+        "name": "Geisel Library (Deadzone)",
+        "lat": 32.8811,
+        "lon": -117.2375,
+        "issue_weights": {
+            "Complete Disconnect": 0.65,
+            "High Latency": 0.15,
+            "Cannot Authenticate": 0.10,
+            "Good Connection": 0.10,
+        },
+    },
+    {
+        "name": "Price Center (Congested Hub)",
+        "lat": 32.8797,
+        "lon": -117.2362,
+        "issue_weights": {
+            "High Latency": 0.60,
+            "Cannot Authenticate": 0.15,
+            "Complete Disconnect": 0.15,
+            "Good Connection": 0.10,
+        },
+    },
+    {
+        "name": "CSE Building (High-Speed Lab)",
+        "lat": 32.8818,
+        "lon": -117.2335,
+        "issue_weights": {
+            "Good Connection": 0.70,
+            "High Latency": 0.15,
+            "Cannot Authenticate": 0.10,
+            "Complete Disconnect": 0.05,
+        },
+    },
+    {
+        "name": "Biomed Library (Study Sanctuary)",
+        "lat": 32.8756,
+        "lon": -117.2368,
+        "issue_weights": {
+            "Good Connection": 0.70,
+            "High Latency": 0.15,
+            "Cannot Authenticate": 0.10,
+            "Complete Disconnect": 0.05,
+        },
+    },
 ]
+
 SPREAD = 0.0004
 NUM_RECORDS = 80
 
@@ -42,23 +80,31 @@ def generate_mock_data(num_records: int = NUM_RECORDS) -> None:
     with db.get_connection() as conn:
         conn.execute("DELETE FROM logs;")
 
-    # Also reload in-memory cache of BroadcastEngine if present
+    # Reload in-memory cache of BroadcastEngine
     engine = db.get_broadcast_engine()
     engine.reload_cache()
 
-    print(f"Generating {num_records} clustered points using random.gauss(0, {SPREAD})...")
+    print(f"Generating {num_records} realistic clustered telemetry points around UCSD...")
     now = datetime.now()
     records = []
 
     records_per_cluster = num_records // len(CLUSTERS)
     remainder = num_records % len(CLUSTERS)
 
-    for idx, (base_lat, base_lon, issue) in enumerate(CLUSTERS):
+    for idx, cluster in enumerate(CLUSTERS):
         count = records_per_cluster + (1 if idx < remainder else 0)
+        base_lat = cluster["lat"]
+        base_lon = cluster["lon"]
+        weights = cluster["issue_weights"]
+        issues_list = list(weights.keys())
+        probabilities = list(weights.values())
+
         for _ in range(count):
             lat = round(base_lat + random.gauss(0, SPREAD), 6)
             lon = round(base_lon + random.gauss(0, SPREAD), 6)
             network = random.choice(NETWORKS)
+            # Weighted random selection for realistic natural variance
+            issue = random.choices(issues_list, weights=probabilities, k=1)[0]
 
             random_seconds_ago = random.randint(0, 86400)
             log_time = now - timedelta(seconds=random_seconds_ago)
@@ -70,7 +116,6 @@ def generate_mock_data(num_records: int = NUM_RECORDS) -> None:
     db.insert_logs_batch(records)
     engine.flush()
 
-    # Verify insertion
     total_logs = len(db.get_all_logs())
     print(f"Success! Seeded {num_records} records. Total records in DB: {total_logs}")
 
