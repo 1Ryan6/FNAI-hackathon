@@ -58,9 +58,9 @@ def build_map(
     zoom_start: int = DEFAULT_ZOOM,
     show_heatmap: bool = True,
 ) -> folium.Map:
-    """Creates folium.Map with CartoDB positron tiles, focused HeatMap for bad issues only,
-    and CircleMarkers with Google Maps walking navigation popups."""
-    m = folium.Map(location=list(center), zoom_start=zoom_start, tiles="CartoDB positron")
+    """Creates folium.Map with OpenStreetMap tiles (no API key required, crisp campus cartography),
+    focused HeatMap for bad issues only, and CircleMarkers with Google Maps walking navigation popups."""
+    m = folium.Map(location=list(center), zoom_start=zoom_start, tiles="OpenStreetMap")
 
     # Reference marker for UCSD center
     folium.Marker(
