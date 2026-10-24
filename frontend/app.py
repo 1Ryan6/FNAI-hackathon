@@ -1,28 +1,40 @@
+from datetime import datetime
 import pandas as pd
 import streamlit as st
 from streamlit_folium import st_folium
 
-# map.py lives next to this file (streamlit puts frontend/ on sys.path); it also
-# adds the repo root to sys.path so `backend` is importable.
 from map import build_map
 from backend import db, analytics
 
-# Initialize database table on startup
-db.init_db()
-
-# Configure page settings
+# Page configuration
 st.set_page_config(page_title="UCSD Ping-Drop Heatmapper", layout="wide")
+
+# Cache BroadcastEngine singleton using @st.cache_resource so all concurrent sessions share one memory state
+@st.cache_resource
+def get_shared_engine():
+    engine = db.get_broadcast_engine()
+    engine.init_db()
+    return engine
+
+engine = get_shared_engine()
+
+# Initialize session state for Offline Store-and-Forward queue
+if "offline_queue" not in st.session_state:
+    st.session_state["offline_queue"] = []
 
 # Sidebar inputs
 with st.sidebar:
     st.header("Report an Issue")
+    st.caption("⚡ Architecture: Async Write-Behind Queue + Shared Memory Broadcast (WAL Mode)")
+
     network = st.selectbox(
         "Network",
         options=["UCSD-Protected", "UCSD-Guest", "eduroam", "ResNet"],
     )
+    # Manual logging of Good Connection, High Latency, Complete Disconnect, and Cannot Authenticate
     issue_type = st.selectbox(
         "Issue Type",
-        options=["Complete Disconnect", "High Latency"],
+        options=["High Latency", "Complete Disconnect", "Cannot Authenticate", "Good Connection"],
     )
     latitude = st.number_input(
         "Latitude",
@@ -34,22 +46,90 @@ with st.sidebar:
         value=-117.2340,
         format="%.4f",
     )
+
     log_drop = st.button("Log Drop", use_container_width=True)
 
+    # Offline & Edge Telemetry Section
+    st.markdown("---")
+    st.subheader("Offline & Edge Telemetry")
+
+    offline_mode = st.toggle("Simulate Deadzone (Offline Mode)", key="simulate_deadzone")
+
+    # If previously offline and toggled OFF with pending items, auto-sync
+    if not offline_mode and len(st.session_state["offline_queue"]) > 0:
+        queued_count = len(st.session_state["offline_queue"])
+        engine.insert_logs_batch(st.session_state["offline_queue"])
+        st.session_state["offline_queue"] = []
+        st.toast(f"Back Online: {queued_count} buffered drops batch-synced!")
+        st.success(f"Auto-synced {queued_count} drops from offline buffer.")
+
+    # Show buffered count
+    st.caption(f"📦 Local Store-and-Forward Buffer: {len(st.session_state['offline_queue'])} pings buffered")
+
+    flush_clicked = st.button("Flush Offline Queue", use_container_width=True)
+    if flush_clicked:
+        if len(st.session_state["offline_queue"]) > 0:
+            queued_count = len(st.session_state["offline_queue"])
+            engine.insert_logs_batch(st.session_state["offline_queue"])
+            st.session_state["offline_queue"] = []
+            st.toast(f"Flushed & Synced: {queued_count} buffered drops sent to server!")
+            st.success(f"Successfully batch-synced {queued_count} buffered drops!")
+        else:
+            st.info("Offline buffer is already empty.")
+
+    # Edge Auto-Heartbeat Check
+    st.markdown("##### Edge Telemetry Probe")
+    share_good_spot = st.checkbox("Share Good Wi-Fi Spot", value=False)
+    edge_heartbeat = st.button("Edge Auto-Heartbeat Check", use_container_width=True)
+
+    if edge_heartbeat:
+        # Simulate edge latency check around current network coordinates
+        import random
+        simulated_latency = random.choice([42, 65, 78, 280, 999])
+        if simulated_latency < 80:
+            if share_good_spot:
+                now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                record = (latitude, longitude, network, "Good Connection", now_str)
+                if offline_mode:
+                    st.session_state["offline_queue"].append(record)
+                    st.success("Edge Probe: Healthy connection logged to local offline buffer.")
+                else:
+                    engine.insert_log(latitude, longitude, network, "Good Connection", custom_timestamp=now_str)
+                    st.success("Edge Probe: Healthy spot shared to community map!")
+            else:
+                st.info(f"Connection Stable ({simulated_latency}ms) - Silenced by Edge Filter (0 Server Calls Made)")
+        else:
+            detected_issue = "Complete Disconnect" if simulated_latency > 500 else "High Latency"
+            now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            record = (latitude, longitude, network, detected_issue, now_str)
+            if offline_mode:
+                st.session_state["offline_queue"].append(record)
+                st.warning(f"Edge Anomaly Detected ({simulated_latency}ms): Buffered {detected_issue} to local deadzone queue.")
+            else:
+                engine.insert_log(latitude, longitude, network, detected_issue, custom_timestamp=now_str)
+                st.error(f"Edge Anomaly Detected ({simulated_latency}ms): Auto-reported {detected_issue} to Broadcast Engine!")
+
+    # Handle manual Log Drop click
     if log_drop:
-        db.insert_log(
-            lat=latitude,
-            lon=longitude,
-            network=network,
-            issue=issue_type,
-        )
-        st.success(f"Logged {issue_type} on {network} at ({latitude:.4f}, {longitude:.4f})")
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        if offline_mode:
+            st.session_state["offline_queue"].append((latitude, longitude, network, issue_type, now_str))
+            st.warning(f"Offline Mode: Buffered {issue_type} on {network} ({len(st.session_state['offline_queue'])} buffered).")
+        else:
+            engine.insert_log(
+                lat=latitude,
+                lon=longitude,
+                network=network,
+                issue=issue_type,
+                custom_timestamp=now_str,
+            )
+            st.success(f"Logged {issue_type} on {network} at ({latitude:.4f}, {longitude:.4f})")
 
 # Main column content
 st.title("UCSD Ping-Drop Heatmapper")
 
-# Fetch all logs from the database
-logs = db.get_all_logs()
+# Fetch all logs via shared BroadcastEngine in-memory cache (O(1) read, zero disk lock contention)
+logs = engine.get_all_logs()
 
 # Horizontal network filter control
 selected_network = st.radio(
@@ -64,12 +144,30 @@ if selected_network == "All":
 else:
     filtered_logs = [l for l in logs if l.get("network_name") == selected_network]
 
+# Clean Color Legend & Live Architecture Metrics Bar above st_folium
+st.markdown("---")
+metric_col1, metric_col2, metric_col3 = st.columns(3)
+metric_col1.metric("Total Cached Logs", len(logs))
+metric_col2.metric("Offline Queue Size", len(st.session_state["offline_queue"]))
+metric_col3.metric("I/O Architecture", "0 Disk Reads/Render (Shared Memory Broadcast)")
+
+st.markdown(
+    """
+    <div style="background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 10px 16px; margin: 10px 0 16px 0; font-size: 0.95rem;">
+        <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: green; margin-right: 6px;"></span><b>Good Connection</b> (Click marker to navigate) &nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: orange; margin-right: 6px;"></span><b>High Latency / Cannot Authenticate</b> &nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: red; margin-right: 6px;"></span><b>Complete Disconnect</b> &nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="display: inline-block; padding: 2px 8px; border-radius: 4px; background: rgba(255,0,0,0.15); font-weight: bold; color: #b30000;">Heat Layer</span> <b>Deadzone Density</b>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
 # Two-column layout: Map on the left (width 3), Analytics on the right (width 2)
 col_map, col_analytics = st.columns([3, 2])
 
 with col_map:
     st.subheader(f"Live Heatmap ({selected_network})")
-    st.caption("🔴 Red = Complete Disconnect | 🟠 Orange = High Latency")
     st_folium(
         build_map(filtered_logs, center=(latitude, longitude)),
         width=750,

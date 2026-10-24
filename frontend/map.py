@@ -1,7 +1,8 @@
 """Folium map layer for the UCSD Ping-Drop Heatmapper.
 
-`build_map(logs)` returns a folium.Map centered on UCSD with one colored
-marker per log. Run this file directly to export a standalone test_map.html.
+`build_map(logs)` returns a folium.Map centered on UCSD with color-coded
+CircleMarkers, Google Maps walking navigation, and a focused HeatMap layer
+exclusively for connectivity issues.
 """
 import os
 import sys
@@ -16,26 +17,38 @@ if PARENT_DIR not in sys.path:
     sys.path.insert(0, PARENT_DIR)
 
 UCSD_CENTER = (32.8801, -117.2340)
-DEFAULT_ZOOM = 15
+DEFAULT_ZOOM = 16
 
 ISSUE_COLORS = {
-    "Complete Disconnect": "red",
+    "Good Connection": "green",
     "High Latency": "orange",
+    "Cannot Authenticate": "orange",
+    "Complete Disconnect": "red",
 }
 FALLBACK_COLOR = "blue"
+BAD_ISSUES = {"Complete Disconnect", "High Latency", "Cannot Authenticate"}
 
-# Used only when the DB is empty/unavailable so the export still shows markers.
+# Sample data used if the DB is empty or unavailable
 SAMPLE_LOGS = [
-    {"latitude": 32.8812, "longitude": -117.2376, "network_name": "eduroam",
+    {"latitude": 32.8811, "longitude": -117.2375, "network_name": "eduroam",
      "issue_type": "Complete Disconnect", "timestamp": "2026-10-24 12:00:00"},
-    {"latitude": 32.8790, "longitude": -117.2310, "network_name": "UCSD-Protected",
+    {"latitude": 32.8797, "longitude": -117.2362, "network_name": "UCSD-Protected",
      "issue_type": "High Latency", "timestamp": "2026-10-24 12:05:00"},
-    {"latitude": 32.8825, "longitude": -117.2335, "network_name": "ResNet",
-     "issue_type": "High Latency", "timestamp": "2026-10-24 12:10:00"},
+    {"latitude": 32.8818, "longitude": -117.2335, "network_name": "ResNet",
+     "issue_type": "Good Connection", "timestamp": "2026-10-24 12:10:00"},
+    {"latitude": 32.8756, "longitude": -117.2368, "network_name": "UCSD-Protected",
+     "issue_type": "Good Connection", "timestamp": "2026-10-24 12:15:00"},
 ]
 
 
 def color_for_issue(issue_type: str) -> str:
+    """Return green for Good Connection, orange for High Latency / Cannot Authenticate, and red for Complete Disconnect."""
+    if issue_type == "Good Connection":
+        return "green"
+    elif issue_type in ("High Latency", "Cannot Authenticate"):
+        return "orange"
+    elif issue_type == "Complete Disconnect":
+        return "red"
     return ISSUE_COLORS.get(issue_type, FALLBACK_COLOR)
 
 
@@ -45,40 +58,60 @@ def build_map(
     zoom_start: int = DEFAULT_ZOOM,
     show_heatmap: bool = True,
 ) -> folium.Map:
-    """Base layer centered on `center` plus HeatMap density and CircleMarkers per log."""
-    # Keyless Esri tiles: OSM tile servers 403 file:// pages (no Referer) and
-    # CartoDB tiles now need an API key.
-    m = folium.Map(location=list(center), zoom_start=zoom_start, tiles=None)
-    folium.TileLayer(
-        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
-        attr="Tiles &copy; Esri",
-        name="Esri World Street Map",
-        max_zoom=19,
-    ).add_to(m)
+    """Creates folium.Map with CartoDB positron tiles, focused HeatMap for bad issues only,
+    and CircleMarkers with Google Maps walking navigation popups."""
+    m = folium.Map(location=list(center), zoom_start=zoom_start, tiles="CartoDB positron")
+
+    # Reference marker for UCSD center
     folium.Marker(
-        list(UCSD_CENTER), tooltip="UCSD (map center)",
+        list(UCSD_CENTER),
+        tooltip="UCSD (map center)",
         icon=folium.Icon(color="darkblue", icon="info-sign"),
     ).add_to(m)
 
     logs_list = list(logs or [])
 
-    # Add heatmap layer
+    # HeatMap: Only add bad issues ('Complete Disconnect', 'High Latency', 'Cannot Authenticate')
+    # Do NOT include 'Good Connection' in HeatMap.
     if show_heatmap and logs_list:
-        heat_data = [[l["latitude"], l["longitude"]] for l in logs_list]
-        HeatMap(heat_data, radius=18, blur=13, max_zoom=17, min_opacity=0.35).add_to(m)
+        bad_data = [
+            [l["latitude"], l["longitude"]]
+            for l in logs_list
+            if l.get("issue_type") in BAD_ISSUES
+        ]
+        if bad_data:
+            HeatMap(bad_data, radius=13, blur=8, min_opacity=0.45).add_to(m)
 
+    # CircleMarker for every log
     for log in logs_list:
-        color = color_for_issue(log["issue_type"])
+        lat = log["latitude"]
+        lon = log["longitude"]
+        issue = log.get("issue_type", "")
+        network = log.get("network_name", "")
+        timestamp = log.get("timestamp", "")
+        color = color_for_issue(issue)
+
+        popup_html = (
+            f"<b>{network}</b><br>"
+            f"Issue: {issue}<br>"
+            f"<small>{timestamp}</small><br><br>"
+            f'<a href="https://www.google.com/maps/dir/?api=1&destination={lat},{lon}&travelmode=walking" '
+            f'target="_blank" style="display:inline-block;padding:6px 10px;background:#2ecc71;color:white;'
+            f'text-decoration:none;border-radius:4px;font-weight:bold;">Walk Here (Google Maps)</a>'
+        )
+        popup = folium.Popup(popup_html, max_width=250)
+
         folium.CircleMarker(
-            location=[log["latitude"], log["longitude"]],
-            radius=6,
+            location=[lat, lon],
+            radius=7,
             color=color,
             fill=True,
             fill_color=color,
-            fill_opacity=0.8,
-            tooltip=f'{log["issue_type"]} - {log["network_name"]}',
-            popup=f'{log["network_name"]}<br>{log["issue_type"]}<br>{log["timestamp"]}',
+            fill_opacity=0.85,
+            tooltip=f"{issue} - {network}",
+            popup=popup,
         ).add_to(m)
+
     return m
 
 
@@ -97,10 +130,11 @@ def export_test_map(path: Optional[str] = None) -> str:
         logs, source = SAMPLE_LOGS, "sample data"
 
     build_map(logs).save(path)
-    reds = sum(1 for l in logs if color_for_issue(l["issue_type"]) == "red")
-    oranges = sum(1 for l in logs if color_for_issue(l["issue_type"]) == "orange")
+    reds = sum(1 for l in logs if color_for_issue(l.get("issue_type", "")) == "red")
+    oranges = sum(1 for l in logs if color_for_issue(l.get("issue_type", "")) == "orange")
+    greens = sum(1 for l in logs if color_for_issue(l.get("issue_type", "")) == "green")
     print(f"Exported {path}\n  source={source} markers={len(logs)} "
-          f"(red={reds}, orange={oranges}) center={UCSD_CENTER}")
+          f"(red={reds}, orange={oranges}, green={greens}) center={UCSD_CENTER}")
     return path
 
 

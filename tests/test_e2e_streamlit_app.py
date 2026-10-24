@@ -39,6 +39,8 @@ class TestStreamlitAppE2E:
         assert "Longitude" in num_inputs
         buttons = [b.label for b in at.sidebar.button]
         assert "Log Drop" in buttons
+        caption_values = [c.value for c in at.sidebar.caption]
+        assert any("Async Write-Behind Queue + Shared Memory Broadcast (WAL Mode)" in c for c in caption_values)
 
     def test_network_dropdown_options(self):
         at = AppTest.from_file(APP_PATH, default_timeout=10)
@@ -51,7 +53,7 @@ class TestStreamlitAppE2E:
         at = AppTest.from_file(APP_PATH, default_timeout=10)
         at.run()
         issue_selectbox = next(s for s in at.sidebar.selectbox if s.label == "Issue Type")
-        expected_issues = ["Complete Disconnect", "High Latency"]
+        expected_issues = ["High Latency", "Complete Disconnect", "Cannot Authenticate", "Good Connection"]
         assert list(issue_selectbox.options) == expected_issues
 
     def test_clicking_log_drop_button_submits_log_and_shows_success(self, monkeypatch, isolated_db):

@@ -24,7 +24,7 @@ class TestSeedConstants:
         assert set(seed_module.NETWORKS) == expected
 
     def test_issues_contains_both(self):
-        expected = {"Complete Disconnect", "High Latency"}
+        expected = {"Complete Disconnect", "High Latency", "Cannot Authenticate", "Good Connection"}
         assert set(seed_module.ISSUES) == expected
 
     def test_base_coordinates_are_ucsd(self):
@@ -32,8 +32,8 @@ class TestSeedConstants:
         assert abs(seed_module.BASE_LON - (-117.2340)) < 0.01
 
     def test_spread_is_reasonable(self):
-        # ~0.0035 degrees is roughly 300-400 meters
-        assert 0.001 < seed_module.SPREAD < 0.01
+        # 0.0004 degrees is roughly 40-50 meters for tight hotspot clustering
+        assert 0.0001 < seed_module.SPREAD < 0.01
 
 
 class TestGenerateMockData:
