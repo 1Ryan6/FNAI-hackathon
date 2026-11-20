@@ -1,0 +1,90 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test Suite (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Syntax compilation check
+        run: |
+          python -m compileall backend frontend tests
+
+      - name: Verify database seeding
+        run: |
+          python backend/seed_data.py
+
+      - name: Verify map export
+        run: |
+          python frontend/map.py
+
+      - name: Run Unit, Integration & E2E tests with coverage
+        run: |
+          pytest tests/ --cov=backend --cov=frontend --cov-report=term-missing --cov-report=xml
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        if: matrix.python-version == '3.13'
+        with:
+          name: coverage-report
+          path: coverage.xml
+          retention-days: 7
+
+  app-smoke-test:
+    name: Streamlit Smoke Test
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Seed database
+        run: |
+          python backend/seed_data.py
+
+      - name: Run Streamlit headless smoke test
+        run: |
+          python -c "
+          from streamlit.testing.v1 import AppTest
+          import os
+          at = AppTest.from_file(os.path.abspath('frontend/app.py'), default_timeout=15)
+          at.run()
+          assert not at.exception, f'Streamlit startup crashed: {at.exception}'
+          print('Streamlit headless smoke test: PASSED')
+          "

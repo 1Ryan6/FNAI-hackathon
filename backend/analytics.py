@@ -123,41 +123,89 @@ def generate_it_action_plan(
 ) -> tuple[str, str]:
     """Return (plan_text, source) where source is 'ai' or 'fallback:<reason>'.
 
-    Never raises: missing key, timeouts, rate limits, empty responses and SDK
-    errors all degrade to the templated ticket.
+    GenAI calls are commented out for now. Degrades cleanly to the deterministic
+    templated NOC ticket.
     """
     fallback = build_fallback_ticket(t, ev)
-    try:
-        if client is None:
-            api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
-            if not api_key:
-                return fallback, "fallback:missing_api_key"
-            from google import genai
-            from google.genai import types
-            client = genai.Client(
-                api_key=api_key,
-                http_options=types.HttpOptions(timeout=timeout_ms),
-            )
-        prompt = (
-            "You are a NOC engineer. Write a concise (max 6 bullet) remediation "
-            "action plan for this network incident.\n"
-            f"Telemetry: {asdict(t)}\nEvaluation: {asdict(ev)}"
-        )
-        resp = client.models.generate_content(model=model, contents=prompt)
-        text = (getattr(resp, "text", None) or "").strip()
-        if not text:
-            return fallback, "fallback:empty_response"
-        return text, "ai"
-    except Exception as exc:  # noqa: BLE001 - deliberate: resilience boundary
-        code = getattr(exc, "code", None)
-        if code == 429:
-            reason = "rate_limited"
-        elif isinstance(exc, TimeoutError) or "timeout" in type(exc).__name__.lower() \
-                or "timed out" in str(exc).lower():
-            reason = "timeout"
-        else:
-            reason = type(exc).__name__
-        return fallback, f"fallback:{reason}"
+    return fallback, "fallback:offline_template"
+
+    # NOTE: GenAI remediation commented out until an API key is configured.
+    # try:
+    #     if client is None:
+    #         api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    #         if not api_key:
+    #             return fallback, "fallback:missing_api_key"
+    #         from google import genai
+    #         from google.genai import types
+    #         client = genai.Client(
+    #             api_key=api_key,
+    #             http_options=types.HttpOptions(timeout=timeout_ms),
+    #         )
+    #     prompt = (
+    #         "You are a NOC engineer. Write a concise (max 6 bullet) remediation "
+    #         "action plan for this network incident.\n"
+    #         f"Telemetry: {asdict(t)}\nEvaluation: {asdict(ev)}"
+    #     )
+    #     resp = client.models.generate_content(model=model, contents=prompt)
+    #     text = (getattr(resp, "text", None) or "").strip()
+    #     if not text:
+    #         return fallback, "fallback:empty_response"
+    #     return text, "ai"
+    # except Exception as exc:  # noqa: BLE001 - deliberate: resilience boundary
+    #     code = getattr(exc, "code", None)
+    #     if code == 429:
+    #         reason = "rate_limited"
+    #     elif isinstance(exc, TimeoutError) or "timeout" in type(exc).__name__.lower() \
+    #             or "timed out" in str(exc).lower():
+    #         reason = "timeout"
+    #     else:
+    #         reason = type(exc).__name__
+    #     return fallback, f"fallback:{reason}"
+
+
+def evaluate_network_logs(
+    logs: list[dict[str, Any]],
+    network_name: Optional[str] = None,
+) -> tuple[TelemetryInput, IncidentEvaluation, str, str]:
+    """Bridge between raw SQLite logs and the telemetry scoring engine.
+
+    1. Filter logs by network_name if provided (ignore filter if None or "All").
+    2. Count total filtered logs, "Complete Disconnect", and "High Latency" logs.
+    3. Deterministically map counts to a TelemetryInput instance.
+    4. Call calculate_priority_score() and generate_it_action_plan().
+    5. Return (telemetry, evaluation, plan_text, source).
+    """
+    if network_name and network_name != "All":
+        filtered_logs = [l for l in logs if l.get("network_name") == network_name]
+    else:
+        filtered_logs = list(logs)
+
+    total_count = len(filtered_logs)
+    disconnect_count = sum(1 for l in filtered_logs if l.get("issue_type") == "Complete Disconnect")
+    high_latency_count = sum(1 for l in filtered_logs if l.get("issue_type") == "High Latency")
+
+    device_id = f"UCSD-{network_name or 'ALL'}-CLUSTER"
+    latency_ms = min(25.0 + (high_latency_count * 18.0), 600.0)
+    packet_loss_pct = min(disconnect_count * 0.6, 15.0)
+    cpu_pct = min(35.0 + (total_count * 1.2), 99.0)
+    error_rate_pct = min(disconnect_count * 0.5, 15.0)
+    affected_users = total_count * 15
+    critical_service = network_name in ("UCSD-Protected", "eduroam", None, "All")
+
+    telemetry = TelemetryInput(
+        device_id=device_id,
+        latency_ms=latency_ms,
+        packet_loss_pct=packet_loss_pct,
+        cpu_pct=cpu_pct,
+        error_rate_pct=error_rate_pct,
+        affected_users=affected_users,
+        critical_service=critical_service,
+    )
+
+    evaluation = calculate_priority_score(telemetry)
+    plan_text, plan_source = generate_it_action_plan(telemetry, evaluation)
+
+    return telemetry, evaluation, plan_text, plan_source
 
 
 # --------------------------------------------------------------------------
@@ -186,65 +234,42 @@ def _run_tests() -> int:
     check("score bounded", 0 <= calculate_priority_score(
         TelemetryInput("x", -5, -5, -5, -5, -5)).score <= 100)
 
-    print("Fallback / mock API tests")
-
-    class _Resp:
-        text = "- Restart interface\n- Check uplink"
-
-    class _OK:
-        class models:
-            @staticmethod
-            def generate_content(**_):
-                return _Resp()
-
-    class _RateLimit(Exception):
-        code = 429
-
-    class _Boom:
-        class models:
-            @staticmethod
-            def generate_content(**_):
-                raise _RateLimit("quota")
-
-    class _Timeout:
-        class models:
-            @staticmethod
-            def generate_content(**_):
-                raise TimeoutError("timed out")
-
-    class _Empty:
-        class models:
-            @staticmethod
-            def generate_content(**_):
-                class R:
-                    text = ""
-                return R()
-
+    print("Template generation tests (GenAI commented out)")
     ev = calculate_priority_score(bad)
-    plan, src = generate_it_action_plan(bad, ev, client=_OK())
-    check("mock success -> ai", src == "ai" and "Restart" in plan)
-    plan, src = generate_it_action_plan(bad, ev, client=_Boom())
-    check("429 -> fallback:rate_limited", src == "fallback:rate_limited" and "NOC DISPATCH" in plan)
-    plan, src = generate_it_action_plan(bad, ev, client=_Timeout())
-    check("timeout -> fallback:timeout", src == "fallback:timeout")
-    plan, src = generate_it_action_plan(bad, ev, client=_Empty())
-    check("empty -> fallback:empty_response", src == "fallback:empty_response")
-    saved = {k: os.environ.pop(k, None) for k in ("GEMINI_API_KEY", "GOOGLE_API_KEY")}
-    try:
-        _, src = generate_it_action_plan(bad, ev)
-        check("missing key -> fallback", src == "fallback:missing_api_key")
-    finally:
-        for k, v in saved.items():
-            if v is not None:
-                os.environ[k] = v
+    plan, src = generate_it_action_plan(bad, ev)
+    check("generates deterministic fallback ticket", "NOC DISPATCH TICKET" in plan and src == "fallback:offline_template")
 
-    print("Live API test")
-    if saved["GEMINI_API_KEY"] or saved["GOOGLE_API_KEY"]:
-        plan, src = generate_it_action_plan(bad, ev)
-        print(f"  source={src}\n{plan}\n")
-        check("live call returned a plan (ai or graceful fallback)", bool(plan))
-    else:
-        print("  skipped (no GEMINI_API_KEY / GOOGLE_API_KEY in environment)")
+    print("Network log adapter tests")
+    mock_logs = [
+        {"network_name": "eduroam", "issue_type": "Complete Disconnect",
+         "latitude": 32.88, "longitude": -117.23, "timestamp": "2026-01-01 00:00:00"},
+        {"network_name": "eduroam", "issue_type": "High Latency",
+         "latitude": 32.88, "longitude": -117.23, "timestamp": "2026-01-01 00:01:00"},
+        {"network_name": "ResNet", "issue_type": "High Latency",
+         "latitude": 32.88, "longitude": -117.23, "timestamp": "2026-01-01 00:02:00"},
+    ]
+    t, ev, plan, src = evaluate_network_logs(mock_logs, "eduroam")
+    check("adapter filters to correct network", t.affected_users == 30)
+    check("adapter device_id format", t.device_id == "UCSD-eduroam-CLUSTER")
+    check("adapter marks eduroam as critical", t.critical_service is True)
+    check("adapter produces valid evaluation", ev.severity in ("LOW", "MEDIUM", "HIGH", "CRITICAL"))
+    check("adapter returns NOC ticket", "NOC DISPATCH" in plan)
+
+    t2, ev2, _, _ = evaluate_network_logs(mock_logs, "ResNet")
+    check("ResNet not critical service", t2.critical_service is False)
+    check("ResNet has 15 users (1 log * 15)", t2.affected_users == 15)
+
+    t3, ev3, _, _ = evaluate_network_logs(mock_logs, "All")
+    check("All filter includes all 3 logs", t3.affected_users == 45)
+    check("All filter critical_service is True", t3.critical_service is True)
+
+    t4, ev4, _, _ = evaluate_network_logs(mock_logs, None)
+    check("None filter device_id is ALL", t4.device_id == "UCSD-ALL-CLUSTER")
+    check("None filter includes all 3 logs", t4.affected_users == 45)
+
+    # Mock / Live GenAI tests commented out until API key configuration:
+    # print("Fallback / mock API tests")
+    # ... (omitted while GenAI is disabled)
 
     print(f"\n{'ALL TESTS PASSED' if not failures else f'{failures} FAILURE(S)'}")
     return 1 if failures else 0

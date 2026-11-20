@@ -8,5 +8,5 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python3 backend/seed_data.py
-streamlit run app.py
+streamlit run frontend/app.py
 
